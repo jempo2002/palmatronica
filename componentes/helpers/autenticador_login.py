@@ -1,5 +1,5 @@
 import hashlib
-from conexion_bd import obtener_conexion
+from componentes.helpers.conexion_bd import obtener_conexion
 
 def md5_hash(texto: str) -> str:
     """Calcula el hash MD5 de un texto."""
