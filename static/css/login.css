@@ -38,11 +38,11 @@ body {
   text-align: center;
 }
 
-.input-login {
+.login-input {
   margin-bottom: 1rem;
 }
 
-.input-login input {
+.login-input input {
   width: 100%;
   padding: 0.75rem;
   border: none;
@@ -51,7 +51,7 @@ body {
   font-size: 1rem;
 }
 
-.input-login input::placeholder {
+.login-input input::placeholder {
   color: #888888;
 }
 

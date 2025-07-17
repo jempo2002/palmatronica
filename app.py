@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template_string
+from flask import Flask, request, redirect, render_template_string, render_template
 from componenetes.helpers.autenticador_login import autenticar_usuario
 
 app = Flask(__name__)
@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template_string(login_form)
+    return render_template("templates/login.html")
 
 @app.route("/login", methods=["POST"])
 def login():

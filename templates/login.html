@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - palmatronica</title>
-  <link rel="stylesheet" href="componenetes/css/login.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
   <div class="login-container">
-    <form class="login-form" action="">
+    <form class="login-form" action="login.html" method="post">
       <h1>Iniciar sesion</h1>
       <div class="login-input">
         <label for="correo" class="sr-only">Correo electrónico</label>
