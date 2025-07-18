@@ -1,12 +1,13 @@
+/* static/css/registro.css */
 :root {
   --bg-color: #0f0f0f;
   --card-color: #1a1a1a;
   --input-bg: #1e1e1e;
   --text-color: #f0f0f0;
-  --button-bg: #2fdcdc; /* neón más apagado */
-  --button-hover-bg: #1f9bab; /* azul neón más controlado */
+  --button-bg: #2fdcdc;
+  --button-hover-bg: #1f9bab;
   --placeholder-color: #aaa;
-  --shadow-glow: 0 0 4px #149696; /* menos intensidad */
+  --shadow-glow: 0 0 4px #149696;
 }
 
 * {
@@ -31,7 +32,7 @@ body {
   border-radius: 12px;
   box-shadow: var(--shadow-glow);
   width: 100%;
-  max-width: 340px;
+  max-width: 400px;
 }
 
 .login-form h1 {
@@ -44,6 +45,7 @@ body {
 
 .login-input {
   margin-bottom: 1rem;
+  position: relative;
 }
 
 .login-input input {
@@ -81,6 +83,19 @@ button:hover {
   transform: scale(1.03);
 }
 
+.login-link {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.login-link strong {
+  color: #33f1f1;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -88,7 +103,13 @@ button:hover {
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0,0,0,0);
+  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+@media (max-width: 600px) {
+  .login-container {
+    padding: 1.5rem;
+  }
 }

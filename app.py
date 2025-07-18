@@ -1,5 +1,6 @@
-from flask import Flask, request, redirect, render_template_string, render_template
-from componentes.helpers.autenticador_login import autenticar_usuario
+from flask import Flask, request, redirect, render_template, url_for
+from componentes.helpers.autenticador_login import md5_hash
+from componentes.helpers.conexion_bd import obtener_conexion
 
 app = Flask(__name__)
 
@@ -16,9 +17,9 @@ def login():
     rol = autenticar_usuario(correo, contrasena)
 
     if rol == "admin":
-        return redirect("/inicio_admin")
+        return redirect("admin/inicio_admin.html")
     elif rol == "cliente":
-        return redirect("/clientes_inicio")
+        return redirect("user/inicio_user.html")
     else:
         return "Usuario o contraseña incorrectos", 401
 
@@ -29,6 +30,15 @@ def inicio_admin():
 @app.route("/clientes_inicio")
 def clientes_inicio():
     return "Bienvenido, cliente"
+
+
+@app.route('/registrarse', methods=['GET', 'POST'])
+def registrarse():
+    if request.method == 'POST':
+        # lógica de registro…
+        return redirect(url_for('login'))
+    return render_template('registro.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)

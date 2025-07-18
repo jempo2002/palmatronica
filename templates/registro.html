@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - Palmatronica</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css') }}">
+  <script src="{{ url_for('static', filename='js/registro.js') }}" defer></script>
+</head>
+<body>
+  <div class="login-container">
+    <form class="login-form" action="{{ url_for('registrarse') }}" method="post" accept-charset="UTF-8" autocomplete="on">
+        {{ csrf_token() }}
+        <h1>Crear cuenta</h1>
+
+        <div class="login-input">
+        <label for="nombre" class="sr-only">Nombre</label>
+        <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            placeholder="Nombre"
+            maxlength="32" 
+            minlength="5" 
+            pattern="[a-zA-Z ]{5-32}"
+            title="El apellido debe tener entre 5 y 32 caracteres y solo letras."
+            required
+        >
+        </div>
+
+        <div class="login-input">
+        <label for="apellido" class="sr-only">Apellido</label>
+        <input
+            type="text"
+            id="apellido"
+            name="apellido"
+            placeholder="Apellido"
+            maxlength="32" 
+            minlength="5" 
+            pattern="[a-zA-Z ]{5-32}"
+            title="El apellido debe tener entre 5 y 32 caracteres y solo letras."
+            required
+        >
+        </div>
+
+        <div class="login-input">
+        <label for="correo" class="sr-only">Correo electrónico</label>
+        <input 
+            type="email" 
+            id="correo" 
+            name="correo" 
+            inputmode="email" 
+            maxlength="64" 
+            minlength="7"
+            pattern="[a-z0-9\.\-\_]+[@]+[a-z0-9\.\-\_]+[\.]+[a-z0-9\.\-\_]"
+             required>
+        </div>
+
+        <div class="login-input">
+        <label for="telefono" class="sr-only">Teléfono</label>
+        <input
+            type="tel"
+            id="telefono"
+            name="telefono"
+            placeholder="3101234567"
+            required
+            pattern="^\d{10}$"
+            minlength="10"
+            maxlength="10"
+            inputmode="numeric"
+            title="Ingresa un número de teléfono de 10 dígitos."
+        >
+        </div>
+
+        <div class="login-input">
+        <label for="direccion" class="sr-only">Dirección</label>
+        <input
+            type="text"
+            id="direccion"
+            name="direccion"
+            placeholder="Ingresa tu Direccion"
+            minlength="5"
+            maxlength="32"
+            title="La dirección debe tener entre 5 y 32 caracteres."
+            required
+        >
+        </div>
+
+        <div class="login-input">
+            <label for="contrasena" class="sr-only">Contraseña</label>
+            <input 
+                type="password"
+                id="palabra_cliente" 
+                name="palabra_cliente"
+                maxlength="16" 
+                minlength="8" 
+                pattern="[a-zA-Z0-9][8,16]" 
+                required>
+        </div>
+
+        <div class="login-input">
+                    <label for="password_cliente_conf" class="sr-only">Confirma tu contraseña</label>
+                    <input 
+                        type="password" 
+                        id="password_cliente_conf" 
+                        name="password_cliente_conf" 
+                        maxlength="16" minlength="8" 
+                        pattern="[a-zA-Z0-9][8,16]" 
+                        onekeyup="ComprobarPalabra(this);" 
+                        required >
+                </div> 
+            </div>
+
+        <button type="submit">Registrarse</button>
+
+        <a href="{{ url_for('index') }}" class="login-link">
+        ¿Ya tienes cuenta? <strong>Inicia sesión</strong>
+        </a>
+    </form>
+  </div>
+</body>
+</html>
