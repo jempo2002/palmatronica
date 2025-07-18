@@ -13,7 +13,7 @@ def autenticar_usuario(correo: str, contrasena: str) -> str | None:
     conexion = obtener_conexion()
     cursor = conexion.cursor(dictionary=True)
     cursor.execute(
-        "SELECT contresena AS pwd, rol FROM usuarios WHERE correo = %s",
+        "SELECT contrasena AS pwd, rol FROM usuarios WHERE correo = %s",
         (correo,)
     )
     usuario = cursor.fetchone()

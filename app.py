@@ -1,5 +1,5 @@
-from flask import Flask, request, redirect, render_template, url_for
-from componentes.helpers.autenticador_login import autenticar_usuario, md5_hash
+from flask import Flask, request, redirect, render_template, url_for, flash
+from componentes.helpers.autenticador_login import md5_hash, autenticar_usuario
 from componentes.helpers.conexion_bd import obtener_conexion
 
 app = Flask(__name__)
@@ -35,33 +35,46 @@ def clientes_inicio():
 @app.route('/registrarse', methods=['GET', 'POST'])
 def registrarse():
     if request.method == 'POST':
-        # lógica de registro…
-        nombre = request.form['nombre']
-        apellido = request.form['apellido']
-        correo = request.form['correo']
-        telefono = request.form['telefono']
-        direccion = request.form['direccion']
-        contrasena = request.form['palabra_cliente']
+        nombre    = request.form['nombre'].strip()
+        apellido  = request.form['apellido'].strip()
+        correo    = request.form['correo'].strip().lower()
+        telefono  = request.form['telefono'].strip()
+        direccion = request.form['direccion'].strip()
+        pwd       = request.form['palabra_cliente']
+        pwd_conf  = request.form['password_cliente_conf']
+
+        # 1. Verificar que las contraseñas coincidan
+        if pwd != pwd_conf:
+            return render_template('registro.html', error_pwd="Las contraseñas no coinciden.")
 
         conexion = obtener_conexion()
-        cursor = conexion.cursor()
-        cursor.execute('SELECT 1 FROM usuarios WHERE correo=%s', (correo,))
-        existente = cursor.fetchone()
+        cursor   = conexion.cursor(dictionary=True)
 
-        if existente:
+        # 2. Comprobar si el correo ya existe (correo es UNIQUE en la tabla) :contentReference[oaicite:0]{index=0}
+        cursor.execute("SELECT COUNT(*) AS cnt FROM usuarios WHERE correo = %s", (correo,))
+        existe = cursor.fetchone()['cnt']
+
+        if existe:
             cursor.close()
             conexion.close()
-            return render_template('registro.html', mensaje='El correo ya está en uso')
+            return render_template('registro.html', error_email="El correo ya está registrado.")
 
+        # 3. Insertar nuevo usuario
+        pwd_hash = md5_hash(pwd)
         cursor.execute(
-            'INSERT INTO usuarios(nombre, apellido, correo, contrasena, telefono, direccion) '
-            'VALUES (%s, %s, %s, %s, %s, %s)',
-            (nombre, apellido, correo, md5_hash(contrasena), telefono, direccion),
+            "INSERT INTO usuarios (nombre, apellido, correo, contrasena, telefono, direccion, rol) "
+            "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            (nombre, apellido, correo, pwd_hash, telefono, direccion, 'cliente')
         )
         conexion.commit()
         cursor.close()
         conexion.close()
+
+        # 4. Éxito: redirigir al login
+        flash("Registro exitoso. Por favor, inicia sesión.")
         return redirect(url_for('index'))
+
+    # GET
     return render_template('registro.html')
 
 

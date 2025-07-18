@@ -112,19 +112,14 @@ button[type="submit"] {
   white-space: normal !important;
 }
 
-@media (max-width: 480px) {
-  .login-container {
-    max-width: 320px;
-    padding: var(--gap);
-  }
-
-  .login-form h1 {
-    font-size: 1.4rem;
-    margin-bottom: var(--gap);
-  }
-
-  button[type="submit"] {
-    font-size: 0.85rem;
-    padding: 0.4rem;
-  }
+.error {
+  color: #f55;
+  background: rgba(255, 0, 0, 0.1);
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
 }
+
+
+
