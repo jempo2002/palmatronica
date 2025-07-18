@@ -29,7 +29,7 @@ def inicio_admin():
 
 @app.route("/clientes_inicio")
 def clientes_inicio():
-    return render_template("admin/clientes_inicio.html")
+    return render_template("user/inicio_user.html")
 
 
 @app.route('/registrarse', methods=['GET', 'POST'])
