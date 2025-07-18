@@ -1,12 +1,14 @@
+/* static/css/registro.css */
+
 :root {
-  --bg-color: #0f0f0f;
-  --card-color: #1a1a1a;
-  --input-bg: #1e1e1e;
-  --text-color: #f0f0f0;
-  --button-bg: #2fdcdc;
-  --button-hover-bg: #1f9bab;
-  --placeholder-color: #aaa;
-  --shadow-glow: 0 0 4px #149696;
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --input-bg: #2a2a2a;
+  --text-color: #e0e0e0;
+  --accent: #2fdcdc;
+  --input-border: #444444;
+  --radius: 6px;
+  --gap: 0.8rem;
 }
 
 * {
@@ -23,90 +25,108 @@ body {
   background-color: var(--bg-color);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text-color);
+  padding: var(--gap);
 }
 
 .login-container {
-  background-color: var(--card-color);
-  padding: 3rem 2rem;
-  border-radius: 12px;
-  box-shadow: var(--shadow-glow);
-  width: 100%;
-  max-width: 400px;
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 6px;
+  width: clamp(320px, 50%, 600px);
 }
+
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--gap);
 }
 
 .login-form h1 {
-  font-size: 2rem;
   text-align: center;
-  color: #33f1f1;
-  text-shadow: 0 0 3px #33f1f1;
-  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: calc(var(--gap) * 1.5);
+}
+
+.login-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-input label {
+  margin-bottom: 0.3rem;
+  color: var(--text-color);
+  font-size: 0.85rem;
 }
 
 .login-input input {
   width: 100%;
-  padding: 1rem;
-  border: 1.5px solid #33f1f1;
-  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
   background-color: var(--input-bg);
   color: var(--text-color);
-  font-size: 1rem;
-  outline: none;
-  box-shadow: inset 0 0 3px #33f1f1;
-  transition: border-color 0.3s;
+  font-size: 0.9rem;
 }
 
-.login-input input::placeholder {
-  color: var(--placeholder-color);
-}
-
-.login-input input:focus {
-  border-color: var(--button-bg);
-}
-
-button {
-  padding: 1rem;
-  border: none;
-  border-radius: 6px;
-  background-color: var(--button-bg);
-  font-size: 1rem;
+button[type="submit"] {
+  margin-top: var(--gap);
+  width: 100%;
+  padding: 0.5rem;
+  background-color: var(--accent);
   color: #000;
-  font-weight: bold;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: none;
+  border-radius: var(--radius);
   cursor: pointer;
-  box-shadow: 0 0 6px #33f1f1;
-  transition: background 0.3s, transform 0.2s;
 }
 
-button:hover {
-  background-color: var(--button-hover-bg);
-  transform: scale(1.03);
-}
-
-.login-form a {
+.login-link,
+.login-link:link,
+.login-link:visited {
+  display: block;
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  margin-top: calc(var(--gap) * 0.75);
   color: var(--text-color);
   text-decoration: none;
-  margin-top: 0.5rem;
 }
 
-.login-form a strong {
-  color: #33f1f1;
+.login-link strong {
+  color: var(--accent);
+  font-weight: 600;
 }
 
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  white-space: nowrap;
-  border: 0;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 0 0.3rem 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
 }
+
+/* Texto “¿Olvidaste tu contraseña?” debajo del input */
+.forgot-password {
+  margin-top: 0.5rem;        /* separa del input */
+  font-size: 0.85rem;        /* ligeramente pequeño */
+  text-align: left;          /* alineado al campo */
+}
+
+/* enlace en color azul (el mismo que “Registrarse aquí”) */
+.forgot-password a {
+  color: var(--accent);   /* usa el mismo color de botón */
+  text-decoration: none;     /* sin subrayado por defecto */
+}
+
+/* opcional, solo para indicar hover sin animación */
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+

@@ -1,54 +1,60 @@
 // static/js/registro.js
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector(".login-form");
 
-  form.addEventListener("submit", (e) => {
-    const nombre    = document.getElementById("nombre").value.trim();
-    const apellido  = document.getElementById("apellido").value.trim();
-    const correo    = document.getElementById("correo").value.trim();
-    const telefono  = document.getElementById("telefono").value.trim();
-    const direccion = document.getElementById("direccion").value.trim();
-    const password  = document.getElementById("palabra_cliente").value;
-    const confirmPw = document.getElementById("password_cliente_conf").value;
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector('.login-form');
+  const inputs = document.querySelectorAll('.login-input input');
+  const submitBtn = document.querySelector('button[type="submit"]');
 
-    // Verificar que no haya campos vacíos
-    if (!nombre || !apellido || !correo || !telefono || !direccion || !password || !confirmPw) {
-      alert("Por favor, completa todos los campos.");
+  // Obtener colores desde variables CSS
+  const rootStyles = getComputedStyle(document.documentElement);
+  const accent    = rootStyles.getPropertyValue('--accent').trim();
+  const accentHover = rootStyles.getPropertyValue('--accent-hover')?.trim() || accent;
+
+  // Efectos de foco y desenfoque en inputs
+  inputs.forEach(input => {
+    input.addEventListener('focus', () => {
+      input.style.borderColor = accent;
+      input.style.boxShadow   = `0 0 8px ${accent}`;
+    });
+    input.addEventListener('blur', () => {
+      input.style.borderColor = rootStyles.getPropertyValue('--input-border').trim();
+      input.style.boxShadow   = 'none';
+    });
+  });
+
+  // Efectos de hover en botón
+  submitBtn.addEventListener('mouseenter', () => {
+    submitBtn.style.backgroundColor = accentHover;
+    submitBtn.style.transform       = 'translateY(-2px)';
+  });
+  submitBtn.addEventListener('mouseleave', () => {
+    submitBtn.style.backgroundColor = accent;
+    submitBtn.style.transform       = 'none';
+  });
+
+  // Validación de formulario
+  form.addEventListener('submit', (e) => {
+    const nombre    = document.getElementById('nombre').value.trim();
+    const apellido  = document.getElementById('apellido').value.trim();
+    const correo    = document.getElementById('correo').value.trim();
+    const telefono  = document.getElementById('telefono').value.trim();
+    const direccion = document.getElementById('direccion').value.trim();
+    const pwd       = document.getElementById('palabra_cliente').value;
+    const pwdConf   = document.getElementById('password_cliente_conf').value;
+
+    if (!nombre || !apellido || !correo || !telefono || !direccion || !pwd || !pwdConf) {
+      alert('Por favor, completa todos los campos.');
       e.preventDefault();
       return;
     }
 
-    // Validar correo
-    const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!correoRegex.test(correo)) {
-      alert("Correo electrónico inválido.");
+
+    if (pwd !== pwdConf) {
+      alert('Las contraseñas no coinciden.');
       e.preventDefault();
       return;
     }
 
-    // Validar teléfono (10 dígitos)
-    const telRegex = /^\d{10}$/;
-    if (!telRegex.test(telefono)) {
-      alert("Teléfono inválido. Debe tener 10 dígitos.");
-      e.preventDefault();
-      return;
-    }
-
-    // Validar contraseña (8–16 caracteres alfanuméricos)
-    const pwRegex = /^[A-Za-z0-9]{8,16}$/;
-    if (!pwRegex.test(password)) {
-      alert("Contraseña inválida. Debe tener entre 8 y 16 caracteres alfanuméricos.");
-      e.preventDefault();
-      return;
-    }
-
-    // Confirmar que las contraseñas coincidan
-    if (password !== confirmPw) {
-      alert("Las contraseñas no coinciden.");
-      e.preventDefault();
-      return;
-    }
-
-    // Si todo es válido, el formulario se envía
+    // Si todo está bien, el formulario se envía
   });
 });

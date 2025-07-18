@@ -13,4 +13,4 @@ def obtener_conexion():
         return conexion
     except Error as e:
         print(f"Error al conectar a la base de datos: {e}")
-        return None
+        raise

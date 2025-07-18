@@ -9,7 +9,7 @@
 </head>
 <body>
   <div class="login-container">
-    <form class="login-form" action="" method="post">
+    <form class="login-form" action="{{ url_for('registrarse') }}" method="post">
         <h1>Crear cuenta</h1>
 
         <div class="login-input">
@@ -22,7 +22,7 @@
             maxlength="32" 
             minlength="5" 
             pattern="[a-zA-Z]{5-32}"
-            title="El apellido debe tener entre 5 y 32 caracteres y solo letras."
+            title="El nombre debe tener entre 5 y 32 caracteres y solo letras."
             required
         >
         </div>
@@ -62,7 +62,7 @@
             type="tel"
             id="telefono"
             name="telefono"
-            placeholder="3101234567"
+            placeholder="Ingresa tu numero telefonico"
             required
             pattern="^\d{10}$"
             minlength="10"
@@ -109,10 +109,8 @@
                         maxlength="16" 
                         minlength="8" 
                         pattern="[a-zA-Z0-9][8,16]" 
-                        onkeyup="ComprobarPalabra(this);" 
                         required >
-                </div> 
-            </div>
+        </div>
 
         <button type="submit">Registrarse</button>
 

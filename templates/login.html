@@ -15,18 +15,22 @@
 
       <div class="login-input">
         <label for="correo" class="sr-only">Correo electrónico</label>
-        <input type="email" id="correo" name="correo" placeholder="Ingresa tu correo electrónico" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+        <input type="email" id="correo" name="correo" placeholder="Ingresa tu correo electrónico" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
       </div>
 
       <div class="login-input">
         <label for="contrasena" class="sr-only">Contraseña</label>
-        <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" required>
+        <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" maxlength="16" minlength="8" pattern="[a-zA-Z0-9]{8,16}" required>
       </div>
+
+      <p class="forgot-password">
+        <a href="{{ url_for('login') }}">¿Olvidaste tu contraseña?</a>
+      </p>
 
       <button type="submit">Iniciar sesión</button>
 
-      <a href="{{ url_for('registrarse') }}">
-        ¿No tienes cuenta? <strong>Registrarse</strong>
+      <a href="{{ url_for('registrarse') }}" class="login-link">
+        ¿No tienes cuenta? <strong>Registrate aqui</strong>
       </a>
     </form>
   </div>
