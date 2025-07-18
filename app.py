@@ -20,8 +20,12 @@ def login():
         return redirect("admin/inicio_admin.html")
     elif rol == "cliente":
         return redirect("user/inicio_user.html")
+    elif rol == "correo_no_existe":
+        return render_template("login.html", error_email="El correo no existe.")
+    elif rol == "contrasena_incorrecta":
+        return render_template("login.html", error_pwd="Contraseña incorrecta.")
     else:
-        return "Usuario o contraseña incorrectos", 401
+        return render_template("login.html", error="Usuario o contraseña incorrectos"), 401
 
 @app.route("/inicio_admin")
 def inicio_admin():
