@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro - Palmatronica</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css') }}">
-  <script src="{{ url_for('static', filename='js/registro.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/registro.js') }}" ></script>
 </head>
 <body>
   <div class="login-container">
-    <form class="login-form" action="{{ url_for('registrarse') }}" method="post" accept-charset="UTF-8" autocomplete="on">
-        {{ csrf_token() }}
+    <form class="login-form" action="" method="post">
         <h1>Crear cuenta</h1>
 
         <div class="login-input">
@@ -49,7 +48,8 @@
             type="email" 
             id="correo" 
             name="correo" 
-            inputmode="email" 
+            inputmode="email"
+            placeholder="Ingresa tu correo electronico" 
             maxlength="64" 
             minlength="7"
             pattern="[a-z0-9\.\-\_]+[@]+[a-z0-9\.\-\_]+[\.]+[a-z0-9\.\-\_]"
@@ -92,6 +92,7 @@
                 type="password"
                 id="palabra_cliente" 
                 name="palabra_cliente"
+                placeholder="Ingresa tu contraseña"
                 maxlength="16" 
                 minlength="8" 
                 pattern="[a-zA-Z0-9][8,16]" 
@@ -104,7 +105,9 @@
                         type="password" 
                         id="password_cliente_conf" 
                         name="password_cliente_conf" 
-                        maxlength="16" minlength="8" 
+                        placeholder="Confirma tu contraseña"
+                        maxlength="16" 
+                        minlength="8" 
                         pattern="[a-zA-Z0-9][8,16]" 
                         onekeyup="ComprobarPalabra(this);" 
                         required >
