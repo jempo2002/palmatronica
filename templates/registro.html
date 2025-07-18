@@ -21,7 +21,7 @@
             placeholder="Nombre"
             maxlength="32" 
             minlength="5" 
-            pattern="[a-zA-Z ]{5-32}"
+            pattern="[a-zA-Z]{5-32}"
             title="El apellido debe tener entre 5 y 32 caracteres y solo letras."
             required
         >
@@ -95,7 +95,7 @@
                 placeholder="Ingresa tu contraseña"
                 maxlength="16" 
                 minlength="8" 
-                pattern="[a-zA-Z0-9][8,16]" 
+                pattern="[a-zA-Z0-9]{8,16}" 
                 required>
         </div>
 
@@ -109,7 +109,7 @@
                         maxlength="16" 
                         minlength="8" 
                         pattern="[a-zA-Z0-9][8,16]" 
-                        onekeyup="ComprobarPalabra(this);" 
+                        onkeyup="ComprobarPalabra(this);" 
                         required >
                 </div> 
             </div>

@@ -1,6 +1,5 @@
 from flask import Flask, request, redirect, render_template, url_for
-from componentes.helpers.autenticador_login import md5_hash
-from componentes.helpers.conexion_bd import obtener_conexion
+from componentes.helpers.autenticador_login import autenticar_usuario
 
 app = Flask(__name__)
 
@@ -32,7 +31,7 @@ def clientes_inicio():
     return "Bienvenido, cliente"
 
 
-@app.route('/registrarse', methods=['GET', 'POST'])
+@app.route('/registrarse', methods=['POST'])
 def registrarse():
     if request.method == 'POST':
         # lógica de registro…
