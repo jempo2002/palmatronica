@@ -37,6 +37,7 @@ def registrarse():
     if request.method == 'POST':
         nombre    = request.form['nombre'].strip()
         apellido  = request.form['apellido'].strip()
+        identificacion = request.form['identificacion'].strip()
         correo    = request.form['correo'].strip().lower()
         telefono  = request.form['telefono'].strip()
         direccion = request.form['direccion'].strip()
@@ -50,7 +51,7 @@ def registrarse():
         conexion = obtener_conexion()
         cursor   = conexion.cursor(dictionary=True)
 
-        # 2. Comprobar si el correo ya existe (correo es UNIQUE en la tabla) :contentReference[oaicite:0]{index=0}
+        # 2. Comprobar si el correo ya existe (correo es UNIQUE en la tabla)
         cursor.execute("SELECT COUNT(*) AS cnt FROM usuarios WHERE correo = %s", (correo,))
         existe = cursor.fetchone()['cnt']
 
@@ -59,12 +60,20 @@ def registrarse():
             conexion.close()
             return render_template('registro.html', error_email="El correo ya está registrado.")
 
-        # 3. Insertar nuevo usuario
+        # 3. Comprobar si el número de identificación ya existe
+        cursor.execute("SELECT COUNT(*) AS cnt FROM usuarios WHERE ld = %s", (identificacion,))
+        existe_id = cursor.fetchone()['cnt']
+
+        if existe_id:
+            cursor.close()
+            conexion.close()
+            return render_template('registro.html', error_id="La identificación ya está registrada.")
+        # 4. Insertar nuevo usuario
         pwd_hash = md5_hash(pwd)
         cursor.execute(
-            "INSERT INTO usuarios (nombre, apellido, correo, contrasena, telefono, direccion, rol) "
-            "VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            (nombre, apellido, correo, pwd_hash, telefono, direccion, 'cliente')
+            "INSERT INTO usuarios (nombre, apellido, ld, correo, contrasena, telefono, direccion, rol) "
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+            (nombre, apellido, identificacion, correo, pwd_hash, telefono, direccion, 'cliente')
         )
         conexion.commit()
         cursor.close()
