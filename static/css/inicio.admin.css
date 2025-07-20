@@ -1,0 +1,86 @@
+:root {
+  --bg-image: url('../img/background.jpg');
+  --card-bg: rgba(0,0,0,0.45);
+  --blur-bg: rgba(255,255,255,0.05);
+  --text-color: #e0e0e0;
+  --accent: #2fdcdc;
+  --radius: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+}
+
+.main-container {
+  backdrop-filter: blur(8px);
+  background-color: var(--card-bg);
+  padding: 2rem 3rem;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.logo {
+  max-width: 220px;
+}
+
+.cards {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background-color: var(--blur-bg);
+  padding: 2rem;
+  border-radius: var(--radius);
+  width: 260px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.card:hover {
+  background-color: rgba(255,255,255,0.15);
+}
+
+.dropdown {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.card.active .dropdown {
+  display: flex;
+}
+
+.dropdown button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  background-color: var(--accent);
+  color: #000;
+  cursor: pointer;
+}
+
+.dropdown button:hover {
+  background-color: #21b5b5;
+}
