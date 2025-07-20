@@ -1,0 +1,66 @@
+@import url('base.css');
+
+.main-container {
+  /* glass effect for the central container */
+  backdrop-filter: blur(10px);
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: 2rem 3rem;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.logo {
+  max-width: 220px;
+}
+
+.cards {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(6px);
+  padding: 2rem;
+  border-radius: var(--radius);
+  width: 260px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.card:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.dropdown {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.card.active .dropdown {
+  display: flex;
+}
+
+.dropdown button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  background-color: var(--accent);
+  color: #000;
+  cursor: pointer;
+}
+
+.dropdown button:hover {
+  background-color: #21b5b5;
+}

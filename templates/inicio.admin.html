@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio Administrador</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/inicio.admin.css') }}">
+  <script src="{{ url_for('static', filename='js/inicio.admin.js') }}" defer></script>
+</head>
+<body>
+  <div class="main-container glass-container">
+    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="logo">
+    <div class="cards">
+      <div class="card" id="new-order-card">
+        <h2>Crear Orden de Servicio</h2>
+        <div class="dropdown">
+          <button>Computador</button>
+          <button>Celular</button>
+        </div>
+      </div>
+      <div class="card" id="history-card">
+        <h2>Historial de Servicios</h2>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
