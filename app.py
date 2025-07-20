@@ -17,9 +17,10 @@ def login():
     rol = autenticar_usuario(correo, contrasena)
 
     if rol == "admin":
-        return redirect("admin/inicio_admin.html")
+        return redirect(url_for("inicio_admin"))
     elif rol == "cliente":
-        return redirect("user/inicio_user.html")
+        return redirect(url_for("clientes_inicio"))
+
     elif rol == "correo_no_existe":
         return render_template("login.html", error_email="Este correo no se encuentra registrado, por favor registrate")
     elif rol == "contrasena_incorrecta":
@@ -62,7 +63,7 @@ def registrarse():
         if existe:
             cursor.close()
             conexion.close()
-            return render_template('registro.html', error_email="El correo ya está registrado.")
+            return render_template('registro.h  tml', error_email="El correo ya está registrado.")
 
         # 3. Comprobar si el número de identificación ya existe
         cursor.execute("SELECT COUNT(*) AS cnt FROM usuarios WHERE ld = %s", (identificacion,))
