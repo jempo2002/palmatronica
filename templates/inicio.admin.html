@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inicio Administrador</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/inicio.admin.css') }}">
   <script src="{{ url_for('static', filename='js/inicio.admin.js') }}" defer></script>
 </head>
 <body>
-  <div class="main-container">
+  <div class="main-container glass-container">
     <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="logo">
     <div class="cards">
       <div class="card" id="new-order-card">

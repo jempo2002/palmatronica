@@ -1,32 +1,4 @@
-:root {
-  /* background image for the glassmorphism layout */
-  --bg-image: url('../img/bck.png');
-
-  /* main colors reused from the existing palette */
-  --text-color: #e0e0e0;
-  --accent: #2fdcdc;
-
-  /* card styling */
-  --card-bg: rgba(255, 255, 255, 0.1);
-  --card-border: rgba(255, 255, 255, 0.3);
-  --radius: 8px;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: var(--bg-image) center/cover no-repeat;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: var(--text-color);
-}
+@import url('base.css');
 
 .main-container {
   /* glass effect for the central container */
