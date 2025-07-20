@@ -21,9 +21,9 @@ def login():
     elif rol == "cliente":
         return redirect("user/inicio_user.html")
     elif rol == "correo_no_existe":
-        return render_template("login.html", error_email="El correo no existe.")
+        return render_template("login.html", error_email="Este correo no se encuentra registrado, por favor registrate")
     elif rol == "contrasena_incorrecta":
-        return render_template("login.html", error_pwd="Contraseña incorrecta.")
+        return render_template("login.html", error_pwd="La contraseña es incorrecta.")
     else:
         return render_template("login.html", error="Usuario o contraseña incorrectos"), 401
 

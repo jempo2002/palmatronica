@@ -69,12 +69,15 @@
       <div class="login-input">
         <label for="identificacion" class="sr-only">Número de identificación</label>
         <input
-          type="number"
+          type="text"
           id="identificacion"
           name="identificacion"
-          placeholder="Número de identificación"
+          placeholder="Escribe tu numero de identificación"
           inputmode="numeric"
-          min="1"
+          maxlength="10"
+          minlength="7"
+          pattern="^\d{7,10}$"
+          title="digita tu numero de identifiacion sin espacios ni puntos, debe tener entre 7 y 10 dígitos."
           required
         >
       </div>
