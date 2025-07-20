@@ -1,5 +1,5 @@
 :root {
-  --bg-image: url('../img/background.jpg');
+  --bg-image: url('../img/bck.png');
   --card-bg: rgba(0,0,0,0.45);
   --blur-bg: rgba(255,255,255,0.05);
   --text-color: #e0e0e0;
@@ -28,6 +28,7 @@ body {
 .main-container {
   backdrop-filter: blur(8px);
   background-color: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 2rem 3rem;
   border-radius: var(--radius);
   display: flex;
@@ -49,6 +50,8 @@ body {
 
 .card {
   background-color: var(--blur-bg);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 2rem;
   border-radius: var(--radius);
   width: 260px;
