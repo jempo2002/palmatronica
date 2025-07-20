@@ -1,9 +1,10 @@
 /* static/css/registro.css */
 
 :root {
+  --bg-image: url('../img/bck.png');
   --bg-color: #121212;
-  --card-bg: #1e1e1e;
-  --input-bg: #2a2a2a;
+  --card-bg: rgba(30,30,30,0.6);
+  --input-bg: rgba(42,42,42,0.8);
   --text-color: #e0e0e0;
   --accent: #2fdcdc;
   --input-border: #444444;
@@ -22,7 +23,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: var(--bg-color);
+  background: var(--bg-color) var(--bg-image) no-repeat center/cover fixed;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text-color);
   padding: var(--gap);
@@ -30,6 +31,8 @@ body {
 
 .login-container {
   background-color: var(--card-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: calc(var(--gap) * 1.25);
   border-radius: var(--radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
