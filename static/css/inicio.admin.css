@@ -1,7 +1,8 @@
 :root {
   --bg-image: url('../img/bck.png');
-  --card-bg: rgba(0,0,0,0.45);
-  --blur-bg: rgba(255,255,255,0.05);
+  --card-bg: rgba(0,0,0,0.35);
+  /* tono un poco mas visible para efecto glassmorfismo */
+  --blur-bg: rgba(255,255,255,0.08);
   --text-color: #e0e0e0;
   --accent: #2fdcdc;
   --radius: 8px;
@@ -50,8 +51,9 @@ body {
 
 .card {
   background-color: var(--blur-bg);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   padding: 2rem;
   border-radius: var(--radius);
   width: 260px;
@@ -75,6 +77,16 @@ body {
   display: flex;
 }
 
+/* estilo para tarjeta de cierre de sesión */
+.logout-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
 .dropdown button {
   padding: 0.5rem 1rem;
   border: none;
@@ -85,5 +97,22 @@ body {
 }
 
 .dropdown button:hover {
+  background-color: #21b5b5;
+}
+
+.btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--accent);
+  color: #000;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+.btn:hover {
   background-color: #21b5b5;
 }
