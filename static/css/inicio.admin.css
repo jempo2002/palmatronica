@@ -87,3 +87,20 @@ body {
 .dropdown button:hover {
   background-color: #21b5b5;
 }
+
+.btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--accent);
+  color: #000;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+.btn:hover {
+  background-color: #21b5b5;
+}
