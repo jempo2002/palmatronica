@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nueva Orden</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/nueva_orden.css') }}">
+  <script src="{{ url_for('static', filename='js/nueva_orden.js') }}" defer></script>
+</head>
+<body>
+  <div class="main-container">
+    <h1>Nueva Orden de Servicio</h1>
+    <form action="{{ url_for('nueva_orden') }}" method="post" class="order-form">
+      <input type="hidden" name="tipo" value="{{ tipo }}">
+      <div class="form-group">
+        <label for="id_usuario" class="sr-only">ID Usuario</label>
+        <input type="text" id="id_usuario" name="id_usuario" placeholder="Número de identificación" required>
+      </div>
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" id="nombre" readonly>
+      </div>
+      <div class="form-group">
+        <label>Apellido</label>
+        <input type="text" id="apellido" readonly>
+      </div>
+      <div class="form-group">
+        <label>Correo</label>
+        <input type="text" id="correo" readonly>
+      </div>
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="text" id="telefono" readonly>
+      </div>
+      <div class="form-group">
+        <label>Dirección</label>
+        <input type="text" id="direccion" readonly>
+      </div>
+      <div class="form-group">
+        <label for="descripcion" class="sr-only">Descripción de la falla</label>
+        <textarea id="descripcion" name="descripcion" placeholder="Descripción de la falla" required></textarea>
+      </div>
+      <button type="submit">Crear Orden</button>
+      <a href="{{ url_for('inicio_admin') }}" class="btn">Volver</a>
+    </form>
+  </div>
+</body>
+</html>

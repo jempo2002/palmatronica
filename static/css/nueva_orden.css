@@ -1,0 +1,73 @@
+:root {
+  --bg-image: url('../img/bck.png');
+  --card-bg: rgba(0,0,0,0.45);
+  --text-color: #e0e0e0;
+  --accent: #2fdcdc;
+  --radius: 8px;
+  --gap: 0.8rem;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+  padding: var(--gap);
+}
+.main-container {
+  backdrop-filter: blur(8px);
+  background-color: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem 3rem;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  width: 100%;
+  max-width: 500px;
+}
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+.form-group input,
+.form-group textarea {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
+  border: 1px solid #444;
+  background-color: rgba(42,42,42,0.8);
+  color: var(--text-color);
+}
+button[type="submit"],
+.btn {
+  margin-top: var(--gap);
+  padding: 0.5rem;
+  background-color: var(--accent);
+  color: #000;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+}
+.btn:hover,
+button[type="submit"]:hover {
+  background-color: #21b5b5;
+}

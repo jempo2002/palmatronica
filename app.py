@@ -3,6 +3,7 @@ from componentes.helpers.autenticador_login import md5_hash, autenticar_usuario
 from componentes.helpers.conexion_bd import obtener_conexion
 
 app = Flask(__name__)
+app.secret_key = 'change_me'
 
 
 
@@ -37,6 +38,53 @@ def clientes_inicio():
     return render_template("user/inicio_user.html")
 
 
+@app.route('/api/usuario/<int:usuario_id>')
+def api_usuario(usuario_id: int):
+    """Devuelve la información de un usuario en formato JSON."""
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+    cursor.execute(
+        "SELECT nombre, apellido, correo, telefono, direccion FROM usuarios WHERE ld = %s",
+        (usuario_id,)
+    )
+    usuario = cursor.fetchone()
+    cursor.close()
+    conexion.close()
+    if usuario:
+        return usuario
+    return {}, 404
+
+
+@app.route('/nueva_orden', methods=['GET', 'POST'])
+def nueva_orden():
+    """Formulario para crear una nueva orden de servicio."""
+    if request.method == 'POST':
+        id_usuario = request.form['id_usuario']
+        descripcion = request.form['descripcion']
+        tipo = request.form.get('tipo')
+
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        cursor.execute(
+            "INSERT INTO ordenes_servicio (id_usuario, fecha_ingreso, descripcion_falla) "
+            "VALUES (%s, CURDATE(), %s)",
+            (id_usuario, descripcion),
+        )
+        id_orden = cursor.lastrowid
+        cursor.execute(
+            "INSERT INTO servicios (id_orden, tipo) VALUES (%s, %s)",
+            (id_orden, tipo or 'computador'),
+        )
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+        flash('Orden creada correctamente')
+        return redirect(url_for('inicio_admin'))
+
+    tipo = request.args.get('tipo', '')
+    return render_template('admin/nueva_orden.html', tipo=tipo)
+
+
 @app.route('/logout')
 def logout():
     """Cierra la sesión actual y vuelve al inicio de sesión."""
@@ -52,12 +100,8 @@ def registrarse():
         correo    = request.form['correo'].strip().lower()
         telefono  = request.form['telefono'].strip()
         direccion = request.form['direccion'].strip()
-        pwd       = request.form['palabra_cliente']
-        pwd_conf  = request.form['password_cliente_conf']
-
-        # 1. Verificar que las contraseñas coincidan
-        if pwd != pwd_conf:
-            return render_template('registro.html', error_pwd="Las contraseñas no coinciden.")
+        # La contraseña será la identificación en texto plano hasheada
+        pwd_hash  = md5_hash(identificacion)
 
         conexion = obtener_conexion()
         cursor   = conexion.cursor(dictionary=True)
@@ -69,7 +113,7 @@ def registrarse():
         if existe:
             cursor.close()
             conexion.close()
-            return render_template('registro.h  tml', error_email="El correo ya está registrado.")
+            return render_template('registro.html', error_email="El correo ya está registrado.")
 
         # 3. Comprobar si el número de identificación ya existe
         cursor.execute("SELECT COUNT(*) AS cnt FROM usuarios WHERE ld = %s", (identificacion,))
@@ -80,7 +124,6 @@ def registrarse():
             conexion.close()
             return render_template('registro.html', error_id="La identificación ya está registrada.")
         # 4. Insertar nuevo usuario
-        pwd_hash = md5_hash(pwd)
         cursor.execute(
             "INSERT INTO usuarios (nombre, apellido, ld, correo, contrasena, telefono, direccion, rol) "
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
@@ -90,9 +133,9 @@ def registrarse():
         cursor.close()
         conexion.close()
 
-        # 4. Éxito: redirigir al login
-        flash("Registro exitoso. Por favor, inicia sesión.")
-        return redirect(url_for('index'))
+        # Éxito: volver al inicio de administrador
+        flash("Usuario registrado correctamente.")
+        return redirect(url_for('inicio_admin'))
 
     # GET
     return render_template('registro.html')
