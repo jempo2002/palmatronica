@@ -25,7 +25,7 @@
       <p class="error">{{ error_id }}</p>
     {% endif %}
 
-    <form class="login-form" action="{{ url_for('registrarse') }}" method="post">
+      <form class="login-form" action="{{ url_for('registrarse') }}" method="post">
       <h1>Crear cuenta</h1>
 
       <!-- Errores de validación -->
@@ -156,12 +156,13 @@
         >
       </div>
 
-      <button type="submit">Registrarse</button>
+        <button type="submit">Registrarse</button>
+        <a href="{{ url_for('index') }}" class="btn">Volver al login</a>
 
-      <a href="{{ url_for('index') }}" class="login-link">
-        ¿Ya tienes cuenta? <strong>Inicia sesión</strong>
-      </a>
-    </form>
-  </div>
-</body>
+        <a href="{{ url_for('index') }}" class="login-link">
+          ¿Ya tienes cuenta? <strong>Inicia sesión</strong>
+        </a>
+      </form>
+    </div>
+  </body>
 </html>

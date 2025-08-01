@@ -74,7 +74,8 @@ body {
   font-size: 0.9rem;
 }
 
-button[type="submit"] {
+button[type="submit"],
+.btn {
   margin-top: var(--gap);
   width: 100%;
   padding: 0.5rem;
@@ -86,6 +87,9 @@ button[type="submit"] {
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
+  text-decoration: none;
+  display: block;
+  text-align: center;
 }
 
 .login-link,

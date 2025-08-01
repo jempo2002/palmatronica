@@ -37,6 +37,12 @@ def clientes_inicio():
     return render_template("user/inicio_user.html")
 
 
+@app.route('/logout')
+def logout():
+    """Cierra la sesión actual y vuelve al inicio de sesión."""
+    return redirect(url_for('index'))
+
+
 @app.route('/registrarse', methods=['GET', 'POST'])
 def registrarse():
     if request.method == 'POST':
