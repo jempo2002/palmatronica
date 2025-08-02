@@ -82,7 +82,8 @@ def nueva_orden():
         return redirect(url_for('inicio_admin'))
 
     tipo = request.args.get('tipo', '')
-    return render_template('admin/nueva_orden.html', tipo=tipo)
+    id_usuario = request.args.get('id', '')
+    return render_template('admin/nueva_orden.html', tipo=tipo, id_usuario=id_usuario)
 
 
 @app.route('/logout')

@@ -25,4 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
   });
+
+  if (idInput.value.trim()) {
+    idInput.dispatchEvent(new Event('change'));
+  }
 });
