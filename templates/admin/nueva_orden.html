@@ -1,48 +1,109 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nueva Orden</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/nueva_orden.css') }}">
-  <script src="{{ url_for('static', filename='js/nueva_orden.js') }}" defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Orden de Servicio</title>
+  <link rel="stylesheet" href="estilo.css" />
 </head>
 <body>
-  <div class="main-container">
-    <h1>Nueva Orden de Servicio</h1>
-    <form action="{{ url_for('nueva_orden') }}" method="post" class="order-form">
-      <input type="hidden" name="tipo" value="{{ tipo }}">
-      <div class="form-group">
-        <label for="id_usuario" class="sr-only">ID Usuario</label>
-        <input type="text" id="id_usuario" name="id_usuario" placeholder="Número de identificación" required>
+  <main class="page">
+    <header class="page__header">
+      <h1 class="title">ORDEN DE SERVICIO</h1>
+    </header>
+
+    <!-- DATOS DEL CLIENTE -->
+    <section class="section">
+      <h2 class="section__title">Datos del cliente</h2>
+      <div class="grid grid--2">
+        <div class="field">
+          <label for="cc">CC</label>
+          <input id="cc" name="cc" type="text" inputmode="numeric" placeholder="Cédula" pattern="^\d{7,10}$" />
+        </div>
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" placeholder="Nombre" />
+        </div>
+        <div class="field">
+          <label for="apellido">Apellido</label>
+          <input id="apellido" name="apellido" type="text" placeholder="Apellido" />
+        </div>
+        <div class="field">
+          <label for="direccion">Dirección</label>
+          <input id="direccion" name="direccion" type="text" placeholder="Dirección" />
+        </div>
+        <div class="field">
+          <label for="correo">Correo</label>
+          <input id="correo" name="correo" type="email" placeholder="correo@dominio.com" />
+        </div>
+        <div class="field">
+          <label for="celular">Celular</label>
+          <input id="celular" name="celular" type="tel" inputmode="tel" placeholder="+57 300 000 0000" />
+        </div>
       </div>
-      <div class="form-group">
-        <label>Nombre</label>
-        <input type="text" id="nombre" readonly>
+    </section>
+
+    <!-- INFORMACIÓN DEL DISPOSITIVO -->
+    <section class="section">
+      <h2 class="section__title">Información del dispositivo</h2>
+      <div class="grid grid--3">
+        <div class="field">
+          <label for="marca">Marca</label>
+          <input id="marca" name="marca" type="text" placeholder="Marca" />
+        </div>
+        <div class="field">
+          <label for="modelo">Modelo</label>
+          <input id="modelo" name="modelo" type="text" placeholder="Modelo" />
+        </div>
+        <div class="field">
+          <label for="imei">IMEI</label>
+          <input id="imei" name="imei" type="text" inputmode="numeric" placeholder="IMEI" />
+        </div>
       </div>
-      <div class="form-group">
-        <label>Apellido</label>
-        <input type="text" id="apellido" readonly>
+    </section>
+
+    <!-- CHECKLIST -->
+    <section class="section">
+      <h2 class="section__title">Checklist</h2>
+      <div class="checklist grid grid--2">
+        <!-- Columna izquierda -->
+        <label class="check"><input type="checkbox" name="pantalla" /> <span>Pantalla</span></label>
+        <label class="check"><input type="checkbox" name="face_id" /> <span>Face ID</span></label>
+
+        <label class="check"><input type="checkbox" name="tactil" /> <span>Táctil</span></label>
+        <label class="check"><input type="checkbox" name="carga" /> <span>Carga</span></label>
+
+        <label class="check"><input type="checkbox" name="backlight" /> <span>Backlight</span></label>
+        <label class="check"><input type="checkbox" name="carga_inalambrica" /> <span>Carga inalámbrica</span></label>
+
+        <label class="check"><input type="checkbox" name="camara_trasera" /> <span>Cámara trasera</span></label>
+        <label class="check"><input type="checkbox" name="auricular" /> <span>Auricular</span></label>
+
+        <label class="check"><input type="checkbox" name="camara_delantera" /> <span>Cámara delantera</span></label>
+        <label class="check"><input type="checkbox" name="microfono" /> <span>Micrófono</span></label>
+
+        <label class="check"><input type="checkbox" name="huella" /> <span>Huella</span></label>
+        <label class="check"><input type="checkbox" name="parlante" /> <span>Parlante</span></label>
       </div>
-      <div class="form-group">
-        <label>Correo</label>
-        <input type="text" id="correo" readonly>
+    </section>
+
+    <!-- DESCRIPCIÓN -->
+    <section class="section">
+      <h2 class="section__title">Descripción del problema</h2>
+      <div class="field">
+        <label for="descripcion" class="sr-only">Descripción</label>
+        <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe síntomas, historial, o condiciones del equipo..."></textarea>
       </div>
-      <div class="form-group">
-        <label>Teléfono</label>
-        <input type="text" id="telefono" readonly>
-      </div>
-      <div class="form-group">
-        <label>Dirección</label>
-        <input type="text" id="direccion" readonly>
-      </div>
-      <div class="form-group">
-        <label for="descripcion" class="sr-only">Descripción de la falla</label>
-        <textarea id="descripcion" name="descripcion" placeholder="Descripción de la falla" required></textarea>
-      </div>
-      <button type="submit">Crear Orden</button>
-      <a href="{{ url_for('inicio_admin') }}" class="btn">Volver</a>
-    </form>
-  </div>
+    </section>
+
+    <!-- TÉRMINOS -->
+    <section class="section">
+      <h2 class="section__title">Términos y condiciones</h2>
+      <p class="terms">
+        Al entregar el equipo, autorizo la revisión y reparación según diagnóstico. Declaro ser titular del dispositivo y
+        acepto costos y plazos informados. El servicio no cubre pérdida de datos ni daños externos previos.
+      </p>
+    </section>
+  </main>
 </body>
 </html>
