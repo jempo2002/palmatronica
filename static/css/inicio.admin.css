@@ -66,6 +66,7 @@ body {
   background-color: rgba(255,255,255,0.15);
 }
 
+.id-search,
 .dropdown {
   display: none;
   flex-direction: column;
@@ -73,7 +74,11 @@ body {
   margin-top: 1rem;
 }
 
-.card.active .dropdown {
+.card.active .id-search {
+  display: flex;
+}
+
+.card.ready .dropdown {
   display: flex;
 }
 

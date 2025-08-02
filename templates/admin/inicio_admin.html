@@ -16,6 +16,10 @@
         </div>
         <div class="card" id="new-order-card" data-url="{{ url_for('nueva_orden') }}">
           <h2>Crear Orden de Servicio</h2>
+          <div class="id-search">
+            <input type="text" id="client-id" placeholder="Número de CC" />
+            <button id="find-client" type="button">Buscar</button>
+          </div>
           <div class="dropdown">
             <button data-type="computador">Computador</button>
             <button data-type="celular">Celular</button>
