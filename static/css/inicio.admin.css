@@ -66,6 +66,7 @@ body {
   background-color: rgba(255,255,255,0.15);
 }
 
+.id-search,
 .dropdown {
   display: none;
   flex-direction: column;
@@ -73,7 +74,11 @@ body {
   margin-top: 1rem;
 }
 
-.card.active .dropdown {
+.card.active .id-search {
+  display: flex;
+}
+
+.card.ready .dropdown {
   display: flex;
 }
 
@@ -115,4 +120,26 @@ body {
 
 .btn:hover {
   background-color: #21b5b5;
+}
+
+.flashes{
+  list-style:none;
+  margin:0 0 1rem;
+  padding:0;
+}
+
+.flash{
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border:1px solid var(--accent);
+  color: var(--accent);
+  padding:8px;
+  border-radius: var(--radius);
+  margin-bottom: var(--gap);
+  text-align:center;
+}
+
+.card-message{
+  margin-top:0.5rem;
+  color:#f55;
+  font-size:0.9rem;
 }

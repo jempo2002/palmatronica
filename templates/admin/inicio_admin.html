@@ -8,6 +8,15 @@
   <script src="{{ url_for('static', filename='js/inicio.admin.js') }}" defer></script>
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for msg in messages %}
+            <li class="flash">{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
     <div class="main-container">
       <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="logo">
       <div class="cards">
@@ -16,6 +25,11 @@
         </div>
         <div class="card" id="new-order-card" data-url="{{ url_for('nueva_orden') }}">
           <h2>Crear Orden de Servicio</h2>
+          <div class="id-search">
+            <input type="text" id="client-id" placeholder="Número de CC" />
+            <button id="find-client" type="button">Buscar</button>
+          </div>
+          <p id="lookup-msg" class="card-message"></p>
           <div class="dropdown">
             <button data-type="computador">Computador</button>
             <button data-type="celular">Celular</button>

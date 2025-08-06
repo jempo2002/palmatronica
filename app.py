@@ -1,9 +1,33 @@
-from flask import Flask, request, redirect, render_template, url_for, flash
+from flask import Flask, request, redirect, render_template, url_for, flash, jsonify, session, abort
 from componentes.helpers.autenticador_login import md5_hash, autenticar_usuario
 from componentes.helpers.conexion_bd import obtener_conexion
+from contextlib import closing
+import secrets
 
 app = Flask(__name__)
 app.secret_key = 'change_me'
+
+
+@app.before_request
+def csrf_protect():
+    if request.method == "POST":
+        token = session.get('_csrf_token')
+        form_token = request.form.get('csrf_token')
+        if not token or token != form_token:
+            abort(400)
+
+
+def generate_csrf_token():
+    token = session.get('_csrf_token')
+    if not token:
+        token = secrets.token_hex(16)
+        session['_csrf_token'] = token
+    return token
+
+
+@app.context_processor
+def csrf_token():
+    return dict(csrf_token=generate_csrf_token)
 
 
 
@@ -41,48 +65,59 @@ def clientes_inicio():
 @app.route('/api/usuario/<int:usuario_id>')
 def api_usuario(usuario_id: int):
     """Devuelve la información de un usuario en formato JSON."""
-    conexion = obtener_conexion()
-    cursor = conexion.cursor(dictionary=True)
-    cursor.execute(
-        "SELECT nombre, apellido, correo, telefono, direccion FROM usuarios WHERE ld = %s",
-        (usuario_id,)
-    )
-    usuario = cursor.fetchone()
-    cursor.close()
-    conexion.close()
+    with closing(obtener_conexion()) as conexion:
+        with conexion.cursor(dictionary=True) as cursor:
+            cursor.execute(
+                "SELECT nombre, apellido, correo, telefono, direccion FROM usuarios WHERE ld = %s",
+                (usuario_id,),
+            )
+            usuario = cursor.fetchone()
     if usuario:
-        return usuario
-    return {}, 404
+        return jsonify(usuario)
+    return jsonify({'error': 'Usuario no encontrado'}), 404
 
 
 @app.route('/nueva_orden', methods=['GET', 'POST'])
 def nueva_orden():
     """Formulario para crear una nueva orden de servicio."""
     if request.method == 'POST':
-        id_usuario = request.form['id_usuario']
+        identificacion = request.form['id_usuario']
         descripcion = request.form['descripcion']
-        tipo = request.form.get('tipo')
+        tipo = request.form.get('tipo', 'computador')
 
-        conexion = obtener_conexion()
-        cursor = conexion.cursor()
-        cursor.execute(
-            "INSERT INTO ordenes_servicio (id_usuario, fecha_ingreso, descripcion_falla) "
-            "VALUES (%s, CURDATE(), %s)",
-            (id_usuario, descripcion),
-        )
-        id_orden = cursor.lastrowid
-        cursor.execute(
-            "INSERT INTO servicios (id_orden, tipo) VALUES (%s, %s)",
-            (id_orden, tipo or 'computador'),
-        )
-        conexion.commit()
-        cursor.close()
-        conexion.close()
+        if tipo not in ('computador', 'celular'):
+            flash('Tipo de servicio inválido')
+            return redirect(url_for('nueva_orden', tipo='', id=identificacion))
+
+        with closing(obtener_conexion()) as conexion:
+            with conexion.cursor() as cursor:
+                cursor.execute("SELECT id_usuario FROM usuarios WHERE ld = %s", (identificacion,))
+                usuario = cursor.fetchone()
+                if not usuario:
+                    flash('El usuario no existe')
+                    return redirect(url_for('nueva_orden', tipo=tipo, id=identificacion))
+
+                id_usuario = usuario[0]
+                cursor.execute(
+                    "INSERT INTO ordenes_servicio (id_usuario, fecha_ingreso, descripcion_falla) "
+                    "VALUES (%s, CURDATE(), %s)",
+                    (id_usuario, descripcion),
+                )
+                id_orden = cursor.lastrowid
+                cursor.execute(
+                    "INSERT INTO servicios (id_orden, tipo) VALUES (%s, %s)",
+                    (id_orden, tipo),
+                )
+                conexion.commit()
+
         flash('Orden creada correctamente')
         return redirect(url_for('inicio_admin'))
 
     tipo = request.args.get('tipo', '')
-    return render_template('admin/nueva_orden.html', tipo=tipo)
+    id_usuario = request.args.get('id', '')
+    return render_template('admin/nueva_orden.html', tipo=tipo, id_usuario=id_usuario)
+
+
 
 
 @app.route('/logout')

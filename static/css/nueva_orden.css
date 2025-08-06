@@ -1,12 +1,12 @@
 :root{
-  --bg: #000000;
-  --text: #e8f2f2;
-  --muted: #a8b7b7;
-  --field-bg: #0f1111;
-  --field-br: #242a2a;
+  --bg: #ffffff;
+  --text: #111111;
+  --muted: #555555;
+  --field-bg: #ffffff;
+  --field-br: #cccccc;
   --field-br-focus: #2fdcdc;
   --accent: #2fdcdc;
-  --line: #1a2222;
+  --line: #dddddd;
   --radius: 12px;
   --gap: 14px;
 }
@@ -28,9 +28,28 @@ body{
 }
 
 .page__header{
+  position: sticky;
+  top: 0;
   display:flex;
   justify-content:center;
+  align-items:center;
   margin-bottom: 22px;
+  background: var(--bg);
+  z-index:10;
+  transition: box-shadow .3s ease;
+}
+
+.page__header.header--scrolled{
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.back-btn{
+  position: absolute;
+  left: 0;
+  font-size: 24px;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 4px 8px;
 }
 
 .title{
@@ -52,7 +71,10 @@ body{
   text-transform: uppercase;
   font-size: 14px;
   letter-spacing: .08em;
-  color: var(--accent);
+  background: #000;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
 }
 
 /* Campos */
@@ -136,4 +158,48 @@ input:focus, textarea:focus{
   margin: 0 0 8px;
   color: var(--muted);
   max-width: 85ch;
+}
+
+.actions{
+  display:flex;
+  gap: var(--gap);
+  margin-top: 20px;
+}
+
+.actions button{
+  flex:1;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.actions .btn-send{
+  background: transparent;
+  color: var(--accent);
+  border:1px solid var(--accent);
+}
+
+.flashes{
+  list-style:none;
+  margin:0 0 1rem;
+  padding:0;
+}
+
+.flash{
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border:1px solid var(--accent);
+  color: var(--accent);
+  padding:8px;
+  border-radius: var(--radius);
+  margin-bottom: var(--gap);
+}
+
+.msg-error{
+  color:#f55;
+  font-size:12px;
+  margin-top:4px;
 }

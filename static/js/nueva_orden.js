@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const idInput = document.getElementById('id_usuario');
+  const errorMsg = document.getElementById('user-error');
   const campos = {
     nombre: document.getElementById('nombre'),
     apellido: document.getElementById('apellido'),
@@ -10,9 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   idInput.addEventListener('change', () => {
     const id = idInput.value.trim();
-    if (!id) return;
+    if (!id) {
+      errorMsg.textContent = '';
+      Object.values(campos).forEach(c => c.value = '');
+      return;
+    }
     fetch(`/api/usuario/${id}`)
-      .then(r => r.ok ? r.json() : null)
+      .then(r => (r.ok ? r.json() : null))
       .then(data => {
         if (data) {
           campos.nombre.value = data.nombre || '';
@@ -20,9 +25,19 @@ document.addEventListener('DOMContentLoaded', () => {
           campos.correo.value = data.correo || '';
           campos.telefono.value = data.telefono || '';
           campos.direccion.value = data.direccion || '';
+          errorMsg.textContent = '';
         } else {
           Object.values(campos).forEach(c => c.value = '');
+          errorMsg.textContent = 'Usuario no encontrado';
         }
+      })
+      .catch(() => {
+        Object.values(campos).forEach(c => c.value = '');
+        errorMsg.textContent = 'Error al consultar usuario';
       });
   });
+
+  if (idInput.value.trim()) {
+    idInput.dispatchEvent(new Event('change'));
+  }
 });
