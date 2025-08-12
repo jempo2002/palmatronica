@@ -1,4 +1,5 @@
 :root{
+  --bg-image: url('../img/bck.png');
   --bg: #000000;
   --text: #e8f2f2;
   --muted: #a8b7b7;
@@ -15,7 +16,7 @@
 html,body{ height:100%; }
 body{
   margin:0;
-  background: var(--bg);
+  background-image: var(--bg-image);
   color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
   line-height: 1.35;
@@ -34,7 +35,7 @@ body{
   justify-content:center;
   align-items:center;
   margin-bottom: 22px;
-  background: var(--bg);
+  background-color: #000;
   z-index:10;
 }
 
@@ -56,7 +57,7 @@ body{
   letter-spacing:.04em;
   font-weight: 700;
   font-size: clamp(22px, 4.5vw, 40px);
-  color: var(--accent);
+  color: #fff;
   text-align: center;
 }
 
@@ -70,7 +71,10 @@ body{
   text-transform: uppercase;
   font-size: 14px;
   letter-spacing: .08em;
-  color: var(--accent);
+   background-color: #000;
+  color: #fff;
+  padding: 4px 8px;
+  display: inline-block;
 }
 
 /* Campos */
