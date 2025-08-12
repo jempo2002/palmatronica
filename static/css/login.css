@@ -1,14 +1,13 @@
-/* static/css/registro.css */
+@import url('https://fonts.googleapis.com/css2?family=Gratelos&display=swap');
 
 :root {
-  --bg-image: url('../img/bck.png');
-  --bg-color: #121212;
-  --card-bg: rgba(30,30,30,0.6);
-  --input-bg: rgba(42,42,42,0.8);
-  --text-color: #e0e0e0;
-  --accent: #2fdcdc;
-  --input-border: #444444;
-  --radius: 6px;
+  --bg-color: #FFFFFF;
+  --card-bg: #FFFFFF;
+  --input-bg: #FFFFFF;
+  --text-color: #272C62;
+  --accent: #60C6ED;
+  --input-border: #60C6ED;
+  --radius: 10px;
   --gap: 0.8rem;
 }
 
@@ -23,18 +22,17 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: var(--bg-color) var(--bg-image) no-repeat center/cover fixed;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-color);
+  font-family: 'Gratelos', sans-serif;
   color: var(--text-color);
   padding: var(--gap);
 }
 
 .login-container {
   background-color: var(--card-bg);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--accent);
   padding: 2rem;
-  border-radius: 6px;
+  border-radius: var(--radius);
   width: clamp(320px, 50%, 600px);
 }
 
@@ -80,7 +78,7 @@ button[type="submit"],
   width: 100%;
   padding: 0.5rem;
   background-color: var(--accent);
-  color: #000;
+  color: var(--text-color);
   font-size: 0.9rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -107,42 +105,3 @@ button[type="submit"],
   color: var(--accent);
   font-weight: 600;
 }
-
-.sr-only {
-  position: static !important;
-  width: auto !important;
-  height: auto !important;
-  margin: 0 0 0.3rem 0 !important;
-  overflow: visible !important;
-  clip: auto !important;
-  white-space: normal !important;
-}
-
-/* Texto “¿Olvidaste tu contraseña?” debajo del input */
-.forgot-password {
-  margin-top: 0.5rem;        /* separa del input */
-  font-size: 0.85rem;        /* ligeramente pequeño */
-  text-align: left;          /* alineado al campo */
-}
-
-/* enlace en color azul (el mismo que “Registrarse aquí”) */
-.forgot-password a {
-  color: var(--accent);   /* usa el mismo color de botón */
-  text-decoration: none;     /* sin subrayado por defecto */
-}
-
-/* opcional, solo para indicar hover sin animación */
-.forgot-password a:hover {
-  text-decoration: underline;
-}
-
-.error {
-  color: #f55;
-  background: rgba(255, 0, 0, 0.1);
-  padding: 0.5rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-

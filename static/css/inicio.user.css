@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Gratelos&display=swap');
+
 :root {
-  --bg-image: url('../img/bck.png');
-  --card-bg: rgba(0,0,0,0.45);
-  --text-color: #e0e0e0;
-  --accent: #2fdcdc;
-  --radius: 8px;
+  --bg-color: #FFFFFF;
+  --card-bg: #FFFFFF;
+  --text-color: #272C62;
+  --accent: #60C6ED;
+  --radius: 10px;
 }
 
 * {
@@ -17,17 +19,14 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-image: var(--bg-image);
-  background-size: cover;
-  background-position: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-color);
+  font-family: 'Gratelos', sans-serif;
   color: var(--text-color);
 }
 
 .main-container {
-  backdrop-filter: blur(8px);
   background-color: var(--card-bg);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--accent);
   padding: 2rem 3rem;
   border-radius: var(--radius);
 }
@@ -36,7 +35,7 @@ body {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
   background-color: var(--accent);
-  color: #000;
+  color: var(--text-color);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 600;
@@ -46,5 +45,6 @@ body {
 }
 
 .btn:hover {
-  background-color: #21b5b5;
+  background-color: var(--text-color);
+  color: var(--bg-color);
 }
