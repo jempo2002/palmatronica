@@ -1,7 +1,7 @@
 :root{
   --bg-image: url('../img/bck.png');
   --bg: #000000;
-  --text: #e8f2f2;
+  --text: #000000;
   --muted: #a8b7b7;
   --field-bg: #0f1111;
   --field-br: #242a2a;
@@ -16,8 +16,14 @@
 html,body{ height:100%; }
 body{
   margin:0;
+<<<<<<< HEAD
   background-image: var(--bg-image);
   color: var(--text);
+=======
+  background: url('../img/white_bck.png') no-repeat center center fixed;
+  background-size: cover;
+  color: #000;
+>>>>>>> e86916d86109bdacf65e299cb74e5c7a1c889506
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
   line-height: 1.35;
 }
