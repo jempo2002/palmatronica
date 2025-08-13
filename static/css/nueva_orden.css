@@ -9,6 +9,8 @@
   --field-br-focus: #60C6ED;
   --accent: #60C6ED;
   --line: #60C6ED;
+  --black: #000000;
+  --white: #FFFFFF;
   --radius: 12px;
   --gap: 14px;
 }
@@ -72,8 +74,8 @@ body{
   text-transform: uppercase;
   font-size: 14px;
   letter-spacing: .08em;
-  background-color: var(--accent);
-  color: var(--text);
+  background-color: var(--black);
+  color: var(--white);
   padding: 4px 8px;
   display: inline-block;
 }
@@ -102,6 +104,29 @@ body{
   height:1px; width:1px;
   overflow:hidden; clip:rect(1px, 1px, 1px, 1px);
   white-space:nowrap; border:0; padding:0; margin:-1px;
+}
+
+/* Mostrar etiquetas dentro del checklist */
+.checklist .field label{
+  height: auto;
+  width: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  margin: 0 0 6px;
+}
+
+.checklist .field{
+  display: flex;
+  flex-direction: column;
+}
+
+.checklist .field select{
+  padding: 8px;
+  border: 1px solid var(--field-br);
+  border-radius: var(--radius);
+  background: var(--field-bg);
+  color: var(--text);
 }
 
 .terms{
