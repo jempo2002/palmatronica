@@ -71,33 +71,110 @@
     <section class="section">
       <h2 class="section__title">Checklist</h2>
       <div class="checklist grid grid--2">
-        <!-- Columna izquierda -->
-        <label class="check"><input type="checkbox" name="pantalla" /> <span>Pantalla</span></label>
-        <label class="check"><input type="checkbox" name="face_id" /> <span>Face ID</span></label>
-
-        <label class="check"><input type="checkbox" name="tactil" /> <span>Táctil</span></label>
-        <label class="check"><input type="checkbox" name="carga" /> <span>Carga</span></label>
-
-        <label class="check"><input type="checkbox" name="backlight" /> <span>Backlight</span></label>
-        <label class="check"><input type="checkbox" name="carga_inalambrica" /> <span>Carga inalámbrica</span></label>
-
-        <label class="check"><input type="checkbox" name="camara_trasera" /> <span>Cámara trasera</span></label>
-        <label class="check"><input type="checkbox" name="auricular" /> <span>Auricular</span></label>
-
-        <label class="check"><input type="checkbox" name="camara_delantera" /> <span>Cámara delantera</span></label>
-        <label class="check"><input type="checkbox" name="microfono" /> <span>Micrófono</span></label>
-
-        <label class="check"><input type="checkbox" name="huella" /> <span>Huella</span></label>
-        <label class="check"><input type="checkbox" name="parlante" /> <span>Parlante</span></label>
-
-        <label class="check"><input type="checkbox" name="senal" /> <span>Senal</span></label>
-        <label class="check"><input type="checkbox" name="vibrador" /> <span>Vibrador</span></label>
+        <div class="field">
+          <label>Pantalla</label>
+          <div class="options">
+            <label><input type="radio" name="pantalla" value="si"> Sí</label>
+            <label><input type="radio" name="pantalla" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Face ID</label>
+          <div class="options">
+            <label><input type="radio" name="face_id" value="si"> Sí</label>
+            <label><input type="radio" name="face_id" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Táctil</label>
+          <div class="options">
+            <label><input type="radio" name="tactil" value="si"> Sí</label>
+            <label><input type="radio" name="tactil" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Carga</label>
+          <div class="options">
+            <label><input type="radio" name="carga" value="si"> Sí</label>
+            <label><input type="radio" name="carga" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Backlight</label>
+          <div class="options">
+            <label><input type="radio" name="backlight" value="si"> Sí</label>
+            <label><input type="radio" name="backlight" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Carga inalámbrica</label>
+          <div class="options">
+            <label><input type="radio" name="carga_inalambrica" value="si"> Sí</label>
+            <label><input type="radio" name="carga_inalambrica" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Cámara trasera</label>
+          <div class="options">
+            <label><input type="radio" name="camara_trasera" value="si"> Sí</label>
+            <label><input type="radio" name="camara_trasera" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Auricular</label>
+          <div class="options">
+            <label><input type="radio" name="auricular" value="si"> Sí</label>
+            <label><input type="radio" name="auricular" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Cámara delantera</label>
+          <div class="options">
+            <label><input type="radio" name="camara_delantera" value="si"> Sí</label>
+            <label><input type="radio" name="camara_delantera" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Micrófono</label>
+          <div class="options">
+            <label><input type="radio" name="microfono" value="si"> Sí</label>
+            <label><input type="radio" name="microfono" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Huella</label>
+          <div class="options">
+            <label><input type="radio" name="huella" value="si"> Sí</label>
+            <label><input type="radio" name="huella" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Parlante</label>
+          <div class="options">
+            <label><input type="radio" name="parlante" value="si"> Sí</label>
+            <label><input type="radio" name="parlante" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Señal</label>
+          <div class="options">
+            <label><input type="radio" name="senal" value="si"> Sí</label>
+            <label><input type="radio" name="senal" value="no"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Vibrador</label>
+          <div class="options">
+            <label><input type="radio" name="vibrador" value="si"> Sí</label>
+            <label><input type="radio" name="vibrador" value="no"> No</label>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- DESCRIPCIÓN -->
     <section class="section">
-      <h2 class="section__title">Descripción del problema</h2>
+      <h2 class="section__title">Descripción</h2>
       <div class="field">
         <label for="descripcion" class="sr-only">Descripción</label>
         <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe síntomas, historial, o condiciones del equipo..."></textarea>
