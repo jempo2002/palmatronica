@@ -71,33 +71,116 @@
     <section class="section">
       <h2 class="section__title">Checklist</h2>
       <div class="checklist grid grid--2">
-        <!-- Columna izquierda -->
-        <label class="check"><input type="checkbox" name="pantalla" /> <span>Pantalla</span></label>
-        <label class="check"><input type="checkbox" name="face_id" /> <span>Face ID</span></label>
+        <div class="field">
+          <label for="pantalla">Pantalla</label>
+          <select id="pantalla" name="pantalla">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="face_id">Face ID</label>
+          <select id="face_id" name="face_id">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
 
-        <label class="check"><input type="checkbox" name="tactil" /> <span>Táctil</span></label>
-        <label class="check"><input type="checkbox" name="carga" /> <span>Carga</span></label>
+        <div class="field">
+          <label for="tactil">Táctil</label>
+          <select id="tactil" name="tactil">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="carga">Carga</label>
+          <select id="carga" name="carga">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
 
-        <label class="check"><input type="checkbox" name="backlight" /> <span>Backlight</span></label>
-        <label class="check"><input type="checkbox" name="carga_inalambrica" /> <span>Carga inalámbrica</span></label>
+        <div class="field">
+          <label for="backlight">Backlight</label>
+          <select id="backlight" name="backlight">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="carga_inalambrica">Carga inalámbrica</label>
+          <select id="carga_inalambrica" name="carga_inalambrica">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
 
-        <label class="check"><input type="checkbox" name="camara_trasera" /> <span>Cámara trasera</span></label>
-        <label class="check"><input type="checkbox" name="auricular" /> <span>Auricular</span></label>
+        <div class="field">
+          <label for="camara_trasera">Cámara trasera</label>
+          <select id="camara_trasera" name="camara_trasera">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="auricular">Auricular</label>
+          <select id="auricular" name="auricular">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
 
-        <label class="check"><input type="checkbox" name="camara_delantera" /> <span>Cámara delantera</span></label>
-        <label class="check"><input type="checkbox" name="microfono" /> <span>Micrófono</span></label>
+        <div class="field">
+          <label for="camara_delantera">Cámara delantera</label>
+          <select id="camara_delantera" name="camara_delantera">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="microfono">Micrófono</label>
+          <select id="microfono" name="microfono">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
 
-        <label class="check"><input type="checkbox" name="huella" /> <span>Huella</span></label>
-        <label class="check"><input type="checkbox" name="parlante" /> <span>Parlante</span></label>
+        <div class="field">
+          <label for="huella">Huella</label>
+          <select id="huella" name="huella">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="parlante">Parlante</label>
+          <select id="parlante" name="parlante">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
 
-        <label class="check"><input type="checkbox" name="senal" /> <span>Senal</span></label>
-        <label class="check"><input type="checkbox" name="vibrador" /> <span>Vibrador</span></label>
+        <div class="field">
+          <label for="senal">Señal</label>
+          <select id="senal" name="senal">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="vibrador">Vibrador</label>
+          <select id="vibrador" name="vibrador">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
       </div>
     </section>
 
     <!-- DESCRIPCIÓN -->
     <section class="section">
-      <h2 class="section__title">Descripción del problema</h2>
+      <h2 class="section__title">Descripción</h2>
       <div class="field">
         <label for="descripcion" class="sr-only">Descripción</label>
         <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe síntomas, historial, o condiciones del equipo..."></textarea>

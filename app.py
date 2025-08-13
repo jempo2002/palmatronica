@@ -78,7 +78,7 @@ def nueva_orden():
         conexion.commit()
         cursor.close()
         conexion.close()
-        flash('Orden creada correctamente')
+        flash(f'Orden creada correctamente. Número de orden: {id_orden}')
         return redirect(url_for('inicio_admin'))
 
     tipo = request.args.get('tipo', '')
