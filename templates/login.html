@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - Palmatronica</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
-
+  <script defer src="{{ url_for('static', filename='js/login.js') }}"></script>
 </head>
 <body>
   <div class="login-container">
-    <form class="login-form" action="{{ url_for('login') }}" method="post">
-      <h1>Iniciar sesión</h1>
+    <form class="login-form" action="{{ url_for('login') }}" method="post" novalidate>
+      <h1>Iniciar sesion</h1>
 
       {% if error_email %}
         <p class="error">{{ error_email }}</p>
@@ -21,21 +20,34 @@
       {% endif %}
 
       <div class="login-input">
-        <label for="correo" class="sr-only">Correo electrónico</label>
-        <input type="email" id="correo" name="correo" placeholder="Ingresa tu correo electrónico" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+        <label for="correo" class="sr-only">Correo electronico</label>
+        <input
+          type="email"
+          id="correo"
+          name="correo"
+          placeholder="Ingresa tu correo electronico"
+          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          required
+        >
       </div>
 
       <div class="login-input">
-        <label for="contrasena" class="sr-only">Contraseña</label>
-        <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" maxlength="16" minlength="8" pattern="[a-zA-Z0-9]{8,16}" required>
+        <label for="contrasena" class="sr-only">Contrasena</label>
+        <input
+          type="password"
+          id="contrasena"
+          name="contrasena"
+          placeholder="Ingresa tu contrasena"
+          maxlength="16"
+          minlength="8"
+          pattern="[a-zA-Z0-9]{8,16}"
+          required
+        >
       </div>
 
-      <p class="forgot-password">
-        <a href="{{ url_for('login') }}">¿Olvidaste tu contraseña?</a>
-      </p>
-
-      <button type="submit">Iniciar sesión</button>
+      <button type="submit">Iniciar sesion</button>
     </form>
   </div>
 </body>
 </html>
+

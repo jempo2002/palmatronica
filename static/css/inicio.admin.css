@@ -1,121 +1,72 @@
-@import url('https://fonts.googleapis.com/css2?family=Gratelos&display=swap');
-
-:root {
-  --bg-color: #FFFFFF;
-  --card-bg: #FFFFFF;
-  --text-color: #272C62;
-  --accent: #60C6ED;
-  --radius: 10px;
+:root{
+  --bg1:#f0f9ff; --bg2:#ecfeff;
+  --accent:#06b6d4; --accent2:#22d3ee;
+  --card-bg:rgba(255,255,255,.9);
+  --border:rgba(0,0,0,.1);
+  --radius:16px; --text:#0f172a;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{box-sizing:border-box;text-decoration: none;margin:0;padding:0}
+
+body{
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  color:var(--text); font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding:24px;
 }
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: var(--bg-color);
-  font-family: 'Gratelos', sans-serif;
-  color: var(--text-color);
+.main-container{
+  backdrop-filter:blur(12px); background:var(--card-bg);
+  border:1px solid var(--border); border-radius:var(--radius);
+  width:clamp(360px, 85vw, 1100px);
+  padding:2.5rem 3rem; box-shadow:0 12px 32px rgba(0,0,0,.15);
+  display:flex; flex-direction:column; align-items:center; gap:2rem;
+  opacity:0; transition:opacity .6s ease-in;
 }
 
-.main-container {
-  background-color: var(--card-bg);
-  border: 1px solid var(--accent);
-  padding: 2rem 3rem;
-  border-radius: var(--radius);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
+.logo{max-width:220px; height:auto}
+
+.cards{
+  width:100%;
+  display:grid; gap:20px;
+  grid-template-columns: repeat( auto-fit, minmax(260px, 1fr) );
 }
 
-.logo {
-  max-width: 220px;
+.card{
+  background:#fff; border:1px solid var(--border); border-radius:14px;
+  padding:1.5rem; cursor:pointer;
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+  transition:transform .15s ease, box-shadow .2s ease;
+
+  /* centrado total */
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
 }
 
-.cards {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
+.card:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.12) }
+.card h2{ font-size:1.2rem; margin-bottom:.75rem }
 
-
-.card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--accent);
-  padding: 2rem;
-  border-radius: var(--radius);
-  width: 260px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.id-search, .dropdown{ display:none; margin-top:1rem }
+.id-search{ display:flex; gap:.5rem; justify-content:center }
+.id-search input{
+  width:60%; min-width:180px; padding:.7rem .9rem; font-size:.95rem;
+  border:1px solid var(--border); border-radius:12px; background:rgba(255,255,255,.95);
+  outline:none; transition:.2s;
 }
+.id-search input:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(34,211,238,.3) }
 
-.card:hover {
-  background-color: var(--accent);
+.btn, .dropdown button{
+  padding:.7rem 1rem; border:0; border-radius:12px; color:#fff; font-weight:700; cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  transition:filter .2s ease, transform .1s ease;
 }
+.btn:hover, .dropdown button:hover{ filter:brightness(1.08) }
 
-.id-search,
-.dropdown {
-  display: none;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
+.dropdown{ display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap }
 
-.card.active .id-search {
-  display: flex;
-}
-
-.card.ready .dropdown {
-  display: flex;
-}
-
-/* estilo para tarjeta de cierre de sesión */
-.logout-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  color: var(--text-color);
-  cursor: pointer;
-}
-
-.dropdown button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: var(--radius);
-  background-color: var(--accent);
-  color: var(--text-color);
-  cursor: pointer;
-}
-
-.dropdown button:hover {
-  background-color: var(--text-color);
-  color: var(--bg-color);
-}
-
-.btn {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: var(--accent);
-  color: var(--text-color);
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border-radius: var(--radius);
-  display: inline-block;
-  text-transform: uppercase;
-}
-
-.btn:hover {
-  background-color: var(--text-color);
-  color: var(--bg-color);
-}
+/* estados */
+.card.active .id-search{ display:flex }
+.card.ready  .dropdown{ display:flex }

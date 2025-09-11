@@ -8,7 +8,7 @@
   <script src="{{ url_for('static', filename='js/registro.js') }}" defer></script>
 </head>
 <body>
-  <div class="login-container">
+  <div class="registro-container">
     <!-- Flash messages -->
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -20,115 +20,57 @@
       {% endif %}
     {% endwith %}
 
-    <!-- Error por número de identificación repetido -->
     {% if error_id %}
       <p class="error">{{ error_id }}</p>
     {% endif %}
 
-      <form class="login-form" action="{{ url_for('registrarse') }}" method="post">
+    <form class="registro-form" action="{{ url_for('registrarse') }}" method="post">
       <h1>Crear cuenta</h1>
 
-      <!-- Errores de validación -->
       {% if error_email %}
         <p class="error">{{ error_email }}</p>
       {% endif %}
 
-      <div class="login-input">
+      <div class="registro-input">
         <label for="nombre" class="sr-only">Nombre</label>
-        <input
-          type="text"
-          id="nombre"
-          name="nombre"
-          placeholder="Nombre"
-          maxlength="32"
-          minlength="4"
-          pattern="[a-zA-Z]{4,32}"
-          title="El nombre debe tener entre 4 y 32 caracteres."
-          required
-        >
+        <input type="text" id="nombre" name="nombre" placeholder="Nombre"
+          maxlength="32" minlength="4" pattern="[a-zA-Z]{4,32}" required>
       </div>
 
-      <div class="login-input">
+      <div class="registro-input">
         <label for="apellido" class="sr-only">Apellido</label>
-        <input
-          type="text"
-          id="apellido"
-          name="apellido"
-          placeholder="Apellido"
-          maxlength="32"
-          minlength="4"
-          pattern="[a-zA-Z ]{4,32}"
-          title="El apellido debe tener entre 4 y 32 caracteres"
-          required
-        >
+        <input type="text" id="apellido" name="apellido" placeholder="Apellido"
+          maxlength="32" minlength="4" pattern="[a-zA-Z ]{4,32}" required>
       </div>
 
-      <div class="login-input">
+      <div class="registro-input">
         <label for="identificacion" class="sr-only">Número de identificación</label>
-        <input
-          type="text"
-          id="identificacion"
-          name="identificacion"
-          placeholder="Escribe tu numero de identificación"
-          inputmode="numeric"
-          maxlength="10"
-          minlength="7"
-          pattern="^\d{7,10}$"
-          title="digita tu numero de identifiacion sin espacios ni puntos, debe tener entre 7 y 10 dígitos."
-          required
-        >
+        <input type="text" id="identificacion" name="identificacion"
+          placeholder="Número de identificación" inputmode="numeric"
+          maxlength="10" minlength="7" pattern="^\d{7,10}$" required>
       </div>
 
-      <div class="login-input">
+      <div class="registro-input">
         <label for="correo" class="sr-only">Correo electrónico</label>
-        <input
-          type="email"
-          id="correo"
-          name="correo"
-          inputmode="email"
-          placeholder="Ingresa tu correo electrónico"
-          maxlength="64"
-          minlength="7"
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-          title="Ingresa un correo válido."
-          required
-        >
+        <input type="email" id="correo" name="correo" placeholder="Correo electrónico"
+          maxlength="64" minlength="7" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
       </div>
 
-      <div class="login-input">
+      <div class="registro-input">
         <label for="telefono" class="sr-only">Teléfono</label>
-        <input
-          type="tel"
-          id="telefono"
-          name="telefono"
-          placeholder="Ingresa tu número telefónico"
-          pattern="^\d{10}$"
-          minlength="10"
-          maxlength="10"
-          inputmode="numeric"
-          title="Ingresa un número de teléfono de 10 dígitos."
-          required
-        >
+        <input type="tel" id="telefono" name="telefono" placeholder="Teléfono"
+          pattern="^\d{10}$" minlength="10" maxlength="10" inputmode="numeric" required>
       </div>
 
-      <div class="login-input">
+      <div class="registro-input">
         <label for="direccion" class="sr-only">Dirección</label>
-        <input
-          type="text"
-          id="direccion"
-          name="direccion"
-          placeholder="Ingresa tu Dirección"
-          minlength="5"
-          maxlength="32"
-          title="La dirección debe tener entre 5 y 32 caracteres."
-          required
-        >
+        <input type="text" id="direccion" name="direccion" placeholder="Dirección"
+          minlength="5" maxlength="32" required>
       </div>
 
-
-        <button type="submit">Registrarse</button>
-        <a href="{{ url_for('inicio_admin') }}" class="btn">Volver</a>
-      </form>
-    </div>
-  </body>
+      <button type="submit">Registrar</button>
+      <a href="{{ url_for('inicio_admin') }}" class="btn">Volver</a>
+    </form>
+  </div>
+</body>
 </html>
