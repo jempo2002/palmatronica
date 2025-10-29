@@ -14,18 +14,18 @@
         <div class="card" id="register-card" data-url="{{ url_for('registrarse') }}">
           <h2>Registrar Usuario</h2>
         </div>
-        <div class="card" id="new-order-card" data-url="{{ url_for('nueva_orden') }}">
+        <div class="card" id="new-order-card">
           <h2>Crear Orden de Servicio</h2>
           <div class="id-search">
             <input type="text" id="client-id" placeholder="Número de CC" />
-            <button id="find-client" type="button" class="btn">Buscar</button>
+            <p id="client-error" class="error-text" role="alert" aria-live="polite" hidden>Usuario no existe.</p>
           </div>
           <div class="dropdown">
-            <button data-type="computador">Computador</button>
-            <button data-type="celular">Celular</button>
+            <button data-type="consola" data-url="{{ url_for('nueva_orden_consola') }}">Consola</button>
+            <button data-type="celular" data-url="{{ url_for('nueva_orden') }}">Celular</button>
           </div>
         </div>
-        <div class="card" id="history-card" data-url="#">
+        <div class="card" id="history-card" data-url="{{ url_for('historial') }}">
           <h2>Historial de Servicios</h2>
         </div>
       </div>

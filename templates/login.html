@@ -12,13 +12,6 @@
     <form class="login-form" action="{{ url_for('login') }}" method="post" novalidate>
       <h1>Iniciar sesion</h1>
 
-      {% if error_email %}
-        <p class="error">{{ error_email }}</p>
-      {% endif %}
-      {% if error_pwd %}
-        <p class="error">{{ error_pwd }}</p>
-      {% endif %}
-
       <div class="login-input">
         <label for="correo" class="sr-only">Correo electronico</label>
         <input
@@ -27,8 +20,12 @@
           name="correo"
           placeholder="Ingresa tu correo electronico"
           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          value="{{ request.form.get('correo','') }}"
           required
         >
+        {% if error_email %}
+          <p class="error" role="alert" aria-live="polite">{{ error_email }}</p>
+        {% endif %}
       </div>
 
       <div class="login-input">
@@ -43,6 +40,9 @@
           pattern="[a-zA-Z0-9]{8,16}"
           required
         >
+        {% if error_pwd %}
+          <p class="error" role="alert" aria-live="polite">{{ error_pwd }}</p>
+        {% endif %}
       </div>
 
       <button type="submit">Iniciar sesion</button>

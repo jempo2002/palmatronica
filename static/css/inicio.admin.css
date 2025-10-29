@@ -58,6 +58,15 @@ body{
 }
 .id-search input:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(34,211,238,.3) }
 
+/* inline error feedback */
+.error-text{ color:#b91c1c; font-size:.85rem; margin-left:.5rem; align-self:flex-start }
+.error-text{ display:block; background:rgba(239,68,68,.08); padding:.35rem .5rem; border-radius:10px; margin-top:.25rem }
+[hidden]{ display:none !important }
+.id-search input.is-invalid{
+  border-color:#ef4444 !important;
+  box-shadow:0 0 0 3px rgba(239,68,68,.2) !important;
+}
+
 .btn, .dropdown button{
   padding:.7rem 1rem; border:0; border-radius:12px; color:#fff; font-weight:700; cursor:pointer;
   background:linear-gradient(135deg,var(--accent),var(--accent2));

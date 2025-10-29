@@ -4,7 +4,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const sections = document.querySelectorAll('.section');
   const header   = document.querySelector('.page__header');
-  const sendBtn  = document.getElementById('send-pdf');
 
   // Aparición progresiva de las secciones
   sections.forEach(sec => {
@@ -28,11 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       header.classList.remove('header--scrolled');
     }
-  });
-
-  // Placeholder para enviar PDF por correo
-  sendBtn?.addEventListener('click', () => {
-    alert('Funcionalidad para enviar PDF por correo pendiente de implementación.');
   });
 });
 

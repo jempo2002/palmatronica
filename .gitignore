@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Backups y temporales
+*.bak
+*.tmp
+*.log
+backup_*.sql
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Documentación generada
+*.md
+!README.md
+*.txt

@@ -6,48 +6,62 @@ document.addEventListener('DOMContentLoaded', () => {
     const url = card.dataset.url || '';
 
     if (card.id === 'new-order-card') {
-      const idInput  = card.querySelector('#client-id');
-      const findBtn  = card.querySelector('#find-client');
-      const dropdown = card.querySelector('.dropdown');
-      let currentId  = '';
+      const idInput   = card.querySelector('#client-id');
+      const dropdown  = card.querySelector('.dropdown');
+      const errEl     = card.querySelector('#client-error');
+
+      const debounce = (fn, wait=400) => {
+        let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+      };
+
+      const showError = (msg) => {
+        if (errEl) { errEl.textContent = msg; errEl.hidden = false; }
+        idInput.classList.add('is-invalid');
+      };
+
+      const clearError = () => {
+        if (errEl) { errEl.hidden = true; }
+        idInput.classList.remove('is-invalid');
+      };
+
+      const validateId = async () => {
+        const id = idInput.value.trim();
+        if (!id) { showError('Ingresa el número de CC.'); return false; }
+        try {
+          const res = await fetch(`/api/usuario/${encodeURIComponent(id)}`);
+          if (!res.ok) { showError('El usuario no existe.'); return false; }
+        } catch (_) {
+          showError('No se pudo validar el usuario. Intenta de nuevo.');
+          return false;
+        }
+        clearError();
+        return true;
+      };
+
+      // hide any pre-existing error on load
+      clearError();
 
       card.addEventListener('click', () => {
         card.classList.toggle('active');
-        card.classList.remove('ready');
+        clearError();
       });
 
       idInput.addEventListener('click', ev => ev.stopPropagation());
-      findBtn.addEventListener('click', ev => ev.stopPropagation());
 
-      findBtn.addEventListener('click', async () => {
-        const id = idInput.value.trim();
-        if (!id) return;
-        try {
-          const res = await fetch(`/api/usuario/${id}`);
-          if (!res.ok) throw new Error('not ok');
-          const data = await res.json();
-          if (data) {
-            currentId = id;
-            card.classList.add('ready');
-            dropdown.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          } else {
-            currentId = '';
-            card.classList.remove('ready');
-            alert('Usuario no ha sido encontrado');
-          }
-        } catch {
-          currentId = '';
-          card.classList.remove('ready');
-          alert('Error consultando el usuario');
-        }
-      });
+      idInput.addEventListener('input', debounce(() => { if (idInput.value.trim()) validateId(); else clearError(); }, 500));
+      idInput.addEventListener('blur', () => { if (idInput.value.trim()) validateId(); });
 
       dropdown.querySelectorAll('button').forEach(btn => {
-        btn.addEventListener('click', ev => {
+        btn.addEventListener('click', async ev => {
           ev.stopPropagation();
-          if (!currentId || !url) return;
+          const ok = await validateId();
+          if (!ok) { idInput.focus(); return; }
+          const id = idInput.value.trim();
           const tipo = btn.dataset.type;
-          window.location.href = `${url}?tipo=${encodeURIComponent(tipo)}&id=${encodeURIComponent(currentId)}`;
+          const targetUrl = btn.dataset.url;
+          if (targetUrl) {
+            window.location.href = `${targetUrl}?tipo=${encodeURIComponent(tipo)}&id=${encodeURIComponent(id)}`;
+          }
         });
       });
 

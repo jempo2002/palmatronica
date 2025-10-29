@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Orden de Servicio</title>
+  <title>Orden de Servicio - Computador</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/nueva_orden.css') }}" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="{{ url_for('static', filename='js/generar_pdf_orden.js') }}" defer></script>
@@ -11,15 +11,13 @@
   <script src="{{ url_for('static', filename='js/nueva_orden.anim.js') }}" defer></script>
 </head>
 <body>
-  <form id="order-form" class="page" action="{{ url_for('nueva_orden') }}" method="post" data-mode="{{ 'edit' if edit else 'create' }}" data-id-orden="{{ id_orden or '' }}">
+  <form id="order-form" class="page" action="{{ url_for('nueva_orden_consola') }}" method="post" data-mode="{{ 'edit' if edit else 'create' }}" data-id-orden="{{ id_orden or '' }}">
     <header class="page__header">
       <a href="{{ url_for('inicio_admin') }}" class="back-btn" aria-label="Volver">&#8592;</a>
-      <h1 class="title">Orden de servicio</h1>
+      <h1 class="title">Orden de servicio - Computador</h1>
     </header>
 
-    <p id="form-error" class="error-text" role="alert" aria-live="polite" hidden>Por favor completa los campos requeridos.</p>
-
-    <input type="hidden" name="tipo" value="{{ tipo }}">
+  <input type="hidden" name="tipo" value="consola">
 
     <section class="section">
       <h2 class="section__title">Datos del cliente</h2>
@@ -46,13 +44,13 @@
         </div>
         <div class="field">
           <label for="telefono">Celular</label>
-          <input id="telefono" name="telefono" type="tel" inputmode="tel" placeholder="+57 300 000 0000" pattern="^\+?\d[\d\s]{7,}$" readonly />
+          <input id="telefono" name="telefono" type="tel" inputmode="tel" placeholder="+57 300 000 0000" readonly />
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2 class="section__title">Información del dispositivo</h2>
+      <h2 class="section__title">Información del equipo</h2>
       <div class="grid grid--2">
         <div class="field">
           <label for="marca">Marca</label>
@@ -63,12 +61,12 @@
           <input id="modelo" name="modelo" type="text" placeholder="Modelo" />
         </div>
         <div class="field">
-          <label for="imei">IMEI</label>
-          <input id="imei" name="imei" type="text" inputmode="numeric" placeholder="IMEI" />
+          <label for="serial">Número de serie</label>
+          <input id="serial" name="serial" type="text" placeholder="Número de serie" />
         </div>
         <div class="field">
-          <label for="password">Contraseña/Patrón</label>
-          <input id="password" name="password" type="text" placeholder="PIN, patrón, o contraseña" />
+          <label for="password">Contraseña/PIN</label>
+          <input id="password" name="password" type="text" placeholder="PIN o contraseña del equipo" />
         </div>
       </div>
     </section>
@@ -77,11 +75,10 @@
       <h2 class="section__title">Checklist</h2>
       <div class="checklist grid grid--2">
         {% set checks = [
-          ('pantalla','Pantalla'), ('face_id','Face ID'), ('tactil','Táctil'), ('carga','Carga'),
-          ('backlight','Backlight'), ('carga_inalambrica','Carga inalámbrica'),
-          ('camara_trasera','Cámara trasera'), ('auricular','Auricular'),
-          ('camara_delantera','Cámara delantera'), ('microfono','Micrófono'),
-          ('huella','Huella'), ('parlante','Parlante'), ('senal','Señal'), ('vibrador','Vibrador')
+          ('pantalla','Pantalla'), ('encendido','Encendido'), ('teclado','Teclado'), ('cargador','Cargador'),
+          ('trackpad','Trackpad/Mouse'), ('puertos_usb','Puertos USB'), ('wifi','WiFi'), ('audio','Audio'),
+          ('bluetooth','Bluetooth'), ('camara_web','Cámara web'), ('ventiladores','Ventiladores'),
+          ('bateria','Batería'), ('hdmi','Puerto HDMI'), ('sistema_operativo','Sistema Operativo')
         ] %}
         {% for name, label in checks %}
         <div class="field">
