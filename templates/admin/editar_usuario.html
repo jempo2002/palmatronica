@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registro - Palmatronica</title>
+  <title>Editar Usuario - Palmatronica</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css') }}">
-  <script src="{{ url_for('static', filename='js/registro.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/editar_usuario.js') }}" defer></script>
 </head>
 <body>
   <div class="registro-container">
@@ -20,35 +20,33 @@
       {% endif %}
     {% endwith %}
 
-    <form class="registro-form" action="{{ url_for('registrarse') }}" method="post">
-      <h1>Crear cuenta</h1>
+    <form class="registro-form" action="{{ url_for('editar_usuario', cc=usuario.cc) }}" method="post">
+      <h1>Editar Usuario</h1>
 
       <div class="registro-input">
         <label for="nombre" class="sr-only">Nombre</label>
         <input type="text" id="nombre" name="nombre" placeholder="Nombre"
-          maxlength="32" minlength="4" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,32}" value="{{ request.form.get('nombre','') }}" required>
+          maxlength="32" minlength="4" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,32}" value="{{ usuario.nombre }}" required>
       </div>
 
       <div class="registro-input">
         <label for="apellido" class="sr-only">Apellido</label>
         <input type="text" id="apellido" name="apellido" placeholder="Apellido"
-          maxlength="32" minlength="4" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,32}" value="{{ request.form.get('apellido','') }}" required>
+          maxlength="32" minlength="4" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,32}" value="{{ usuario.apellido }}" required>
       </div>
 
       <div class="registro-input">
         <label for="identificacion" class="sr-only">Número de identificación</label>
         <input type="text" id="identificacion" name="identificacion"
           placeholder="Número de identificación" inputmode="numeric"
-          maxlength="10" minlength="7" pattern="^\d{7,10}$" value="{{ request.form.get('identificacion','') }}" required>
-        {% if error_id %}
-          <p class="error" role="alert" aria-live="polite">{{ error_id }}</p>
-        {% endif %}
+          maxlength="10" minlength="7" pattern="^\d{7,10}$" value="{{ usuario.cc }}" readonly>
+        <small style="color: #475569; font-size: 0.85rem;">La identificación no se puede modificar</small>
       </div>
 
       <div class="registro-input">
         <label for="correo" class="sr-only">Correo electrónico</label>
         <input type="email" id="correo" name="correo" placeholder="Correo electrónico"
-          maxlength="64" minlength="7" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="{{ request.form.get('correo','') }}" required>
+          maxlength="64" minlength="7" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="{{ usuario.correo }}" required>
         {% if error_email %}
           <p class="error" role="alert" aria-live="polite">{{ error_email }}</p>
         {% endif %}
@@ -57,36 +55,35 @@
       <div class="registro-input">
         <label for="telefono" class="sr-only">Teléfono</label>
         <input type="tel" id="telefono" name="telefono" placeholder="Teléfono"
-          pattern="^\d{10}$" minlength="10" maxlength="10" inputmode="numeric" value="{{ request.form.get('telefono','') }}" required>
+          pattern="^\d{10}$" minlength="10" maxlength="10" inputmode="numeric" value="{{ usuario.telefono }}" required>
       </div>
 
       <div class="registro-input">
         <label for="direccion" class="sr-only">Dirección</label>
         <input type="text" id="direccion" name="direccion" placeholder="Dirección"
-          minlength="5" maxlength="32" value="{{ request.form.get('direccion','') }}" required>
+          minlength="5" maxlength="32" value="{{ usuario.direccion }}" required>
       </div>
 
-      {% if es_admin %}
-      {% set rol_sel = request.form.get('rol','cliente') %}
       <div class="registro-input">
         <label for="rol" class="sr-only">Rol de usuario</label>
         <select id="rol" name="rol">
-          <option value="cliente" {% if rol_sel != 'admin' %}selected{% endif %}>Cliente</option>
-          <option value="admin" {% if rol_sel == 'admin' %}selected{% endif %}>Administrador</option>
+          <option value="cliente" {% if usuario.rol == 'cliente' %}selected{% endif %}>Cliente</option>
+          <option value="admin" {% if usuario.rol == 'admin' %}selected{% endif %}>Administrador</option>
         </select>
       </div>
-      <div class="registro-input" id="admin-password-container" {% if rol_sel != 'admin' %}hidden{% endif %}>
-        <label for="contrasena_admin" class="sr-only">Contraseña (solo administradores)</label>
+
+      <div class="registro-input" id="admin-password-container" {% if usuario.rol != 'admin' %}hidden{% endif %}>
+        <label for="contrasena_admin" class="sr-only">Nueva Contraseña (opcional)</label>
         <input type="password" id="contrasena_admin" name="contrasena_admin"
-               placeholder="Contraseña para administrador" minlength="6" maxlength="64" autocomplete="new-password">
+               placeholder="Nueva contraseña (dejar vacío para mantener actual)" minlength="6" maxlength="64" autocomplete="new-password">
+        <small style="color: #475569; font-size: 0.85rem;">Solo ingresa contraseña si deseas cambiarla</small>
         {% if error_pwd %}
           <p class="error" role="alert" aria-live="polite">{{ error_pwd }}</p>
         {% endif %}
       </div>
-      {% endif %}
 
-      <button type="submit">Registrar</button>
-      <a href="{{ url_for('inicio_admin') }}" class="btn">Volver</a>
+      <button type="submit">Guardar Cambios</button>
+      <a href="{{ url_for('inicio_admin') }}" class="btn">Cancelar</a>
     </form>
   </div>
 </body>

@@ -45,10 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!rolSel || !adminPwdContainer || !adminPwdInput) return;
     const isAdmin = rolSel.value === 'admin';
     adminPwdContainer.hidden = !isAdmin;
-    if (isAdmin) {
-      adminPwdInput.required = true;
-    } else {
-      adminPwdInput.required = false;
+    // En edición, la contraseña es opcional
+    adminPwdInput.required = false;
+    if (!isAdmin) {
       adminPwdInput.value = '';
     }
   }

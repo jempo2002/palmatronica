@@ -23,6 +23,18 @@
           <div class="dropdown">
             <button data-type="consola" data-url="{{ url_for('nueva_orden_consola') }}">Consola</button>
             <button data-type="celular" data-url="{{ url_for('nueva_orden') }}">Celular</button>
+            <button data-type="pc" data-url="{{ url_for('nueva_orden_pc') }}">PC</button>
+          </div>
+        </div>
+        <div class="card" id="manage-users-card">
+          <h2>Gestionar Usuarios</h2>
+          <div class="id-search">
+            <input type="text" id="user-id" placeholder="Número de CC" />
+            <p id="user-error" class="error-text" role="alert" aria-live="polite" hidden>Usuario no existe.</p>
+          </div>
+          <div class="dropdown">
+            <button id="edit-user-btn">Editar Usuario</button>
+            <button id="delete-user-btn">Eliminar Usuario</button>
           </div>
         </div>
         <div class="card" id="history-card" data-url="{{ url_for('historial') }}">

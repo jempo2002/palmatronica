@@ -58,24 +58,22 @@ function obtenerDatosOrden() {
 
   // Capturar checklist (todos los radios seleccionados)
   const checklist = [];
-  const radioGroups = {};
+  const radioGroups = new Set();
   
   form.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
     const name = radio.name;
-    const value = radio.value;
-    const label = radio.closest('.field')?.querySelector('label')?.textContent?.trim() || name;
+    // Saltar si ya procesamos este grupo (solo debe haber uno checked por grupo)
+    if (radioGroups.has(name)) return;
+    radioGroups.add(name);
     
-    if (!radioGroups[name]) {
-      radioGroups[name] = { label, value };
-    }
-  });
-
-  for (const [name, data] of Object.entries(radioGroups)) {
+    const value = radio.value;
+    const label = radio.closest('.field')?.querySelector('label:not(.choice)')?.textContent?.trim() || name;
+    
     checklist.push({
-      item: data.label,
-      estado: data.value
+      item: label,
+      estado: value
     });
-  }
+  });
 
   // Descripción
   const descripcion = document.getElementById('descripcion')?.value || 'Sin descripción adicional';

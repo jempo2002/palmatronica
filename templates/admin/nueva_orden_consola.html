@@ -73,6 +73,13 @@
 
     <section class="section">
       <h2 class="section__title">Checklist</h2>
+      <div class="switch-row" role="group" aria-label="Equipo apagado">
+        <span class="switch-row__label">Equipo apagado</span>
+        <label class="toggle" title="Cuando está encendido, marca todo como No">
+          <input type="checkbox" id="switch-apagado" checked aria-checked="true" />
+          <span class="toggle__track"><span class="toggle__thumb"></span></span>
+        </label>
+      </div>
       <div class="checklist grid grid--2">
         {% set checks = [
           ('pantalla','Pantalla'), ('encendido','Encendido'), ('teclado','Teclado'), ('cargador','Cargador'),

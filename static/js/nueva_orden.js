@@ -75,6 +75,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const input = document.querySelector(`input[type="radio"][name="${nombre}"][value="${valor}"]`);
             if (input) input.checked = true;
           });
+
+          // Ajustar el estado del switch según el checklist cargado (si todo es "no" => encendido)
+          const apagadoSwitch = document.getElementById('switch-apagado');
+          if (apagadoSwitch) {
+            const valores = o.checklist.map(i => String(i.valor).toLowerCase());
+            const allNo = valores.length > 0 && valores.every(v => v === 'no');
+            const allSi = valores.length > 0 && valores.every(v => v === 'si');
+            apagadoSwitch.checked = allNo ? true : false;
+            apagadoSwitch.setAttribute('aria-checked', apagadoSwitch.checked ? 'true' : 'false');
+            // Estado mixto no se refleja visualmente; mantenemos apagadoSwitch en false si hay mezcla
+          }
         }
       } catch (e) {
         console.error(e);
@@ -245,6 +256,48 @@ document.addEventListener('DOMContentLoaded', () => {
         previewButton.textContent = originalText;
         previewButton.style.opacity = '1';
       }
+    });
+  }
+
+  // Lógica del switch "apagado" para checklist: ON => todo "no", OFF => todo "si"
+  const apagadoSwitch = document.getElementById('switch-apagado');
+  const checklistRoot = document.querySelector('.checklist');
+  const descField = document.getElementById('descripcion');
+  function setChecklistAll(valor) {
+    if (!checklistRoot) return;
+    const targets = checklistRoot.querySelectorAll(`input[type="radio"][value="${valor}"]`);
+    targets.forEach(r => { r.checked = true; });
+  }
+
+  // Inserta o elimina el marcador de "equipo ingresa apagado, " al inicio de la descripción
+  function setApagadoMarker(isOn) {
+    if (!descField) return;
+    const marker = 'equipo ingresa apagado, ';
+    const re = /^\s*equipo ingresa apagado,\s*/i;
+    const text = descField.value || '';
+    if (isOn) {
+      if (!re.test(text)) {
+        // Prepend marker; mantener el resto sin espacios iniciales extra
+        descField.value = marker + text.replace(/^\s+/, '');
+      }
+    } else {
+      // Quitar marcador si existe
+      descField.value = text.replace(re, '');
+    }
+  }
+  if (apagadoSwitch) {
+    // Estado inicial: en modo creación, el switch viene encendido por defecto => marcar todo "no"
+    if (formMode === 'create') {
+      setChecklistAll('no');
+      apagadoSwitch.checked = true;
+      apagadoSwitch.setAttribute('aria-checked', 'true');
+      setApagadoMarker(true);
+    }
+    apagadoSwitch.addEventListener('change', () => {
+      const isOn = apagadoSwitch.checked;
+      apagadoSwitch.setAttribute('aria-checked', isOn ? 'true' : 'false');
+      setChecklistAll(isOn ? 'no' : 'si');
+      setApagadoMarker(isOn);
     });
   }
 });

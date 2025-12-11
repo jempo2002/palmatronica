@@ -238,6 +238,8 @@ def ver_orden(id_orden: int):
     tipo = orden['tipo']
     if tipo == 'consola':
         return render_template('admin/nueva_orden_consola.html', edit=True, id_orden=id_orden, id_usuario=orden['cc'])
+    elif tipo == 'pc':
+        return render_template('admin/nueva_orden_pc.html', edit=True, id_orden=id_orden, id_usuario=orden['cc'])
     else:
         return render_template('admin/nueva_orden.html', edit=True, id_orden=id_orden, id_usuario=orden['cc'], tipo='celular')
 
@@ -481,10 +483,218 @@ def nueva_orden_consola():
     return render_template('admin/nueva_orden_consola.html', tipo=tipo, id_usuario=id_usuario)
 
 
+@app.route('/nueva_orden_pc', methods=['GET', 'POST'])
+def nueva_orden_pc():
+    """Formulario para crear una nueva orden de servicio para PC."""
+    if request.method == 'POST':
+        if request.is_json:
+            data = request.get_json()
+            # El campo id_usuario del formulario es la CC
+            cc = data.get('id_usuario')
+            descripcion = data.get('descripcion')
+            tipo = data.get('tipo', 'pc')
+
+            marca = data.get('marca')
+            modelo = data.get('modelo')
+            serial = data.get('serial')
+            password_patron = data.get('password', '')
+
+            checklist = data.get('checklist', {})
+
+            conexion = obtener_conexion()
+            cursor = conexion.cursor(dictionary=True)
+            try:
+                # Mapear CC a PK
+                cursor.execute("SELECT id_usuario FROM usuarios WHERE cc = %s", (cc,))
+                fila_usuario = cursor.fetchone()
+                if not fila_usuario:
+                    return jsonify({'success': False, 'error': 'El usuario no existe (CC no registrada).'}), 400
+                id_usuario_pk = fila_usuario['id_usuario']
+
+                # Insert orden
+                campos = ["id_usuario", "fecha_ingreso", "descripcion_falla"]
+                placeholders = ["%s", "NOW()", "%s"]
+                valores = [id_usuario_pk, descripcion]
+
+                if data.get('diagnostico') is not None:
+                    campos.append('diagnostico')
+                    placeholders.append('%s')
+                    valores.append(data.get('diagnostico'))
+                if data.get('costo_total') is not None:
+                    campos.append('costo_total')
+                    placeholders.append('%s')
+                    valores.append(data.get('costo_total'))
+                if data.get('fecha_entrega') is not None:
+                    campos.append('fecha_entrega')
+                    placeholders.append('%s')
+                    valores.append(data.get('fecha_entrega'))
+
+                cursor.execute(
+                    f"INSERT INTO ordenes_servicio ({', '.join(campos)}) VALUES ({', '.join(placeholders)})",
+                    tuple(valores)
+                )
+                id_orden = cursor.lastrowid
+
+                cursor.execute(
+                    "INSERT INTO servicios (id_orden, tipo) VALUES (%s, %s)",
+                    (id_orden, tipo),
+                )
+                id_servicio = cursor.lastrowid
+
+                cursor.execute(
+                    "INSERT INTO dispositivos (id_servicio, marca, modelo, serial, password_patron) "
+                    "VALUES (%s, %s, %s, %s, %s)",
+                    (id_servicio, marca, modelo, serial, password_patron),
+                )
+
+                for nombre_item, valor in checklist.items():
+                    cursor.execute(
+                        "INSERT INTO checklist_respuestas (id_servicio, nombre_item, valor) VALUES (%s, %s, %s)",
+                        (id_servicio, nombre_item, valor)
+                    )
+
+                conexion.commit()
+                return jsonify({'success': True, 'id_orden': id_orden, 'message': f'Orden {id_orden} creada correctamente'})
+            except Exception as e:
+                conexion.rollback()
+                return jsonify({'success': False, 'error': str(e)}), 400
+            finally:
+                cursor.close()
+                conexion.close()
+        else:
+            # Fallback formulario tradicional
+            cc = request.form['id_usuario']
+            descripcion = request.form['descripcion']
+            tipo = request.form.get('tipo')
+
+            conexion = obtener_conexion()
+            cursor = conexion.cursor(dictionary=True)
+            cursor.execute("SELECT id_usuario FROM usuarios WHERE cc = %s", (cc,))
+            fila_usuario = cursor.fetchone()
+            if not fila_usuario:
+                cursor.close()
+                conexion.close()
+                flash('No existe un usuario con esa identificación (CC).')
+                return redirect(url_for('inicio_admin'))
+            id_usuario_pk = fila_usuario['id_usuario']
+
+            cursor = conexion.cursor()
+            cursor.execute(
+                "INSERT INTO ordenes_servicio (id_usuario, fecha_ingreso, descripcion_falla) VALUES (%s, NOW(), %s)",
+                (id_usuario_pk, descripcion),
+            )
+            id_orden = cursor.lastrowid
+            cursor.execute(
+                "INSERT INTO servicios (id_orden, tipo) VALUES (%s, %s)",
+                (id_orden, (tipo or 'pc')),
+            )
+            conexion.commit()
+            cursor.close()
+            conexion.close()
+            flash(f'Orden creada correctamente. Número de orden: {id_orden}')
+            return redirect(url_for('inicio_admin'))
+
+    tipo = request.args.get('tipo', '')
+    id_usuario = request.args.get('id', '')
+    return render_template('admin/nueva_orden_pc.html', tipo=tipo, id_usuario=id_usuario)
+
+
 @app.route('/logout')
 def logout():
     """Cierra la sesión actual y vuelve al inicio de sesión."""
     return redirect(url_for('index'))
+
+
+@app.route('/editar_usuario/<cc>', methods=['GET', 'POST'])
+def editar_usuario(cc):
+    """Edita un usuario existente."""
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+    
+    if request.method == 'POST':
+        nombre = request.form['nombre'].strip()
+        apellido = request.form['apellido'].strip()
+        correo = request.form['correo'].strip().lower()
+        telefono = request.form['telefono'].strip()
+        direccion = request.form['direccion'].strip()
+        rol = request.form.get('rol', 'cliente')
+        
+        # Verificar si el correo ya existe en otro usuario
+        cursor.execute("SELECT COUNT(*) AS cnt FROM usuarios WHERE correo = %s AND cc != %s", (correo, cc))
+        existe = cursor.fetchone()['cnt']
+        
+        if existe:
+            cursor.execute("SELECT * FROM usuarios WHERE cc = %s", (cc,))
+            usuario = cursor.fetchone()
+            cursor.close()
+            conexion.close()
+            return render_template('admin/editar_usuario.html', usuario=usuario, error_email="El correo ya está registrado por otro usuario.")
+        
+        # Actualizar contraseña solo si se proporciona una nueva
+        contrasena_admin = request.form.get('contrasena_admin', '').strip()
+        if rol == 'admin' and contrasena_admin:
+            pwd_hash = md5_hash(contrasena_admin)
+            cursor.execute(
+                "UPDATE usuarios SET nombre=%s, apellido=%s, correo=%s, telefono=%s, direccion=%s, rol=%s, contrasena=%s WHERE cc=%s",
+                (nombre, apellido, correo, telefono, direccion, rol, pwd_hash, cc)
+            )
+        else:
+            cursor.execute(
+                "UPDATE usuarios SET nombre=%s, apellido=%s, correo=%s, telefono=%s, direccion=%s, rol=%s WHERE cc=%s",
+                (nombre, apellido, correo, telefono, direccion, rol, cc)
+            )
+        
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+        
+        flash("Usuario actualizado correctamente.")
+        return redirect(url_for('inicio_admin'))
+    
+    # GET: cargar datos del usuario
+    cursor.execute("SELECT * FROM usuarios WHERE cc = %s", (cc,))
+    usuario = cursor.fetchone()
+    cursor.close()
+    conexion.close()
+    
+    if not usuario:
+        flash("Usuario no encontrado.")
+        return redirect(url_for('inicio_admin'))
+    
+    return render_template('admin/editar_usuario.html', usuario=usuario)
+
+
+@app.route('/api/eliminar_usuario/<cc>', methods=['DELETE'])
+def eliminar_usuario(cc):
+    """Elimina un usuario por su CC."""
+    try:
+        conexion = obtener_conexion()
+        cursor = conexion.cursor(dictionary=True)
+        
+        # Verificar si el usuario tiene órdenes asociadas
+        cursor.execute("SELECT COUNT(*) AS cnt FROM ordenes_servicio WHERE id_usuario = (SELECT id_usuario FROM usuarios WHERE cc = %s)", (cc,))
+        tiene_ordenes = cursor.fetchone()['cnt']
+        
+        if tiene_ordenes > 0:
+            cursor.close()
+            conexion.close()
+            return jsonify({"error": "No se puede eliminar el usuario porque tiene órdenes de servicio asociadas."}), 400
+        
+        # Eliminar usuario
+        cursor.execute("DELETE FROM usuarios WHERE cc = %s", (cc,))
+        conexion.commit()
+        
+        if cursor.rowcount == 0:
+            cursor.close()
+            conexion.close()
+            return jsonify({"error": "Usuario no encontrado."}), 404
+        
+        cursor.close()
+        conexion.close()
+        return jsonify({"message": "Usuario eliminado correctamente."}), 200
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route('/registrarse', methods=['GET', 'POST'])
@@ -497,7 +707,14 @@ def registrarse():
         telefono = request.form['telefono'].strip()
         direccion = request.form['direccion'].strip()
         rol = request.form.get('rol', 'cliente')
-        pwd_hash = md5_hash(identificacion)
+        # Para clientes: contraseña por defecto = hash(CC). Para administradores: usar la contraseña ingresada.
+        if rol == 'admin':
+            contrasena_admin = request.form.get('contrasena_admin', '').strip()
+            if not contrasena_admin:
+                return render_template('registro.html', es_admin=True, error_pwd="La contraseña es obligatoria para administradores." )
+            pwd_hash = md5_hash(contrasena_admin)
+        else:
+            pwd_hash = md5_hash(identificacion)
 
         conexion = obtener_conexion()
         cursor = conexion.cursor(dictionary=True)
