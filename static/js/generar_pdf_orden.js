@@ -20,6 +20,209 @@ function checkPageOverflow(doc, y, marginBottom = 20) {
   return y;
 }
 
+// Renderiza la segunda página de términos y condiciones.
+function renderTerminosCondicionesPage(doc) {
+  const marginTop = 14;
+  const marginBottom = 12;
+  const marginLeft = 10;
+  const marginRight = 10;
+  const columnGap = 6;
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const contentWidth = pageWidth - marginLeft - marginRight;
+  const columnWidth = (contentWidth - columnGap) / 2;
+  const maxY = pageHeight - marginBottom;
+
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(0, 0, 0);
+  const titleLines = doc.splitTextToSize('TÉRMINOS Y CONDICIONES DE SERVICIO – PALMATRÓNICA', contentWidth);
+  let titleY = marginTop;
+  titleLines.forEach((line) => {
+    doc.text(line, marginLeft, titleY);
+    titleY += 4;
+  });
+
+  const columnStartY = titleY + 2;
+  let currentColumn = 0;
+  let y = columnStartY;
+
+  const columnX = () => marginLeft + (currentColumn * (columnWidth + columnGap));
+
+  const moveToNextColumn = () => {
+    if (currentColumn === 0) {
+      currentColumn = 1;
+      y = columnStartY;
+      return true;
+    }
+    return false;
+  };
+
+  const ensureSpace = (requiredHeight) => {
+    if (y + requiredHeight <= maxY) {
+      return true;
+    }
+    return moveToNextColumn();
+  };
+
+  const printWrappedText = (text, options = {}) => {
+    const {
+      indent = 0,
+      font = 'normal',
+      fontSize = 6.6,
+      color = [30, 30, 30],
+      lineHeight = 2.95,
+      spacingAfter = 1.2
+    } = options;
+
+    doc.setFontSize(fontSize);
+    doc.setFont('helvetica', font);
+    doc.setTextColor(...color);
+
+    const availableWidth = columnWidth - indent;
+    const lines = doc.splitTextToSize(text, availableWidth);
+
+    lines.forEach((line) => {
+      if (!ensureSpace(lineHeight + 0.5)) {
+        return;
+      }
+      doc.text(line, columnX() + indent, y);
+      y += lineHeight;
+    });
+
+    if (!ensureSpace(spacingAfter)) {
+      return;
+    }
+    y += spacingAfter;
+  };
+
+  const secciones = [
+    {
+      titulo: '1. ESTADO DEL EQUIPO AL INGRESO',
+      parrafos: [
+        'Equipos Apagados: Si el equipo se recibe apagado, sin imagen, sin táctil o con bloqueo de software que impida el acceso, no es posible verificar el estado previo de componentes (cámaras, micrófonos, sensores, señal, etc.). En estos casos, PALMATRÓNICA no se hace responsable por fallas adicionales detectadas tras el encendido.',
+        'Declaración del Cliente: El cliente debe informar sobre daños conocidos. Cualquier falla no declarada que se evidencie durante el proceso técnico será responsabilidad del estado previo del equipo.'
+      ]
+    },
+    {
+      titulo: '2. EQUIPOS PREVIAMENTE INTERVENIDOS',
+      parrafos: [
+        'PALMATRÓNICA no se responsabiliza por daños derivados de reparaciones anteriores realizadas por terceros. Equipos que presenten sellos rotos, falta de tornillería interna o puentes de soldadura previos pueden presentar fallas críticas durante la apertura o manipulación.'
+      ]
+    },
+    {
+      titulo: '3. PROCEDIMIENTOS DE ALTO RIESGO',
+      parrafos: [
+        'En trabajos de microelectrónica, reparación de Board o cambio de visor (glass), el cliente acepta el riesgo de que el equipo no sea reparable o presente fallas en otros componentes debido a la exposición al calor o la fragilidad del circuito. Estos procesos se ejecutan bajo autorización expresa.'
+      ]
+    },
+    {
+      titulo: '4. REPUESTOS Y COMPATIBILIDAD',
+      parrafos: [
+        'Se instalarán repuestos originales, compatibles o genéricos según el acuerdo previo.',
+        'Advertencia Apple/iPhone: El cliente acepta que, tras el cambio de piezas en dispositivos iPhone (baterías, pantallas, Face ID), el sistema puede mostrar mensajes de "Pieza desconocida" o limitar funciones de salud de batería, incluso con repuestos de alta calidad, debido a las restricciones del fabricante.'
+      ]
+    },
+    {
+      titulo: '5. GARANTÍA DEL SERVICIO',
+      parrafos: [
+        'La garantía es de 90 días y cubre exclusivamente la mano de obra y el repuesto instalado. La garantía en pantallas solo cubre para repuestos originales. Las pantallas que no son originales tienen garantía de 7 días y aplica solo para el táctil.',
+        'Nulidad de Garantía: Se anula automáticamente por:'
+      ],
+      subitems: [
+        'Ruptura o manipulación de los sellos de seguridad de PALMATRÓNICA.',
+        'Daños por humedad, golpes, sobrecargas eléctricas o mal uso.',
+        'Intervención técnica ajena a este centro posterior a la entrega.',
+        'Instalación de software no oficial o modificaciones de firmware.'
+      ]
+    },
+    {
+      titulo: '6. EQUIPOS CON DAÑO POR LÍQUIDO',
+      parrafos: [
+        'Debido a la naturaleza progresiva de la corrosión y la sulfatación, los equipos mojados no cuentan con garantía. El servicio se enfoca en el intento de recuperación de encendido o información, pero no se garantiza la estabilidad del equipo a largo plazo.'
+      ]
+    },
+    {
+      titulo: '7. RESPONSABILIDAD DE DATOS E INFORMACIÓN',
+      parrafos: [
+        'Es responsabilidad exclusiva del cliente realizar copias de seguridad (backup). PALMATRÓNICA no se hace responsable por la pérdida de datos, fotos o archivos durante procesos de reparación o actualización.'
+      ]
+    },
+    {
+      titulo: '8. SOFTWARE Y BLOQUEOS DE SEGURIDAD',
+      parrafos: [
+        'No se realizan desbloqueos de cuentas Google (FRP), Samsung Account y iCloud.',
+        'El centro no garantiza la permanencia de servicios de liberación o modificaciones de software si el usuario decide actualizar el sistema operativo posteriormente.'
+      ]
+    },
+    {
+      titulo: '9. TIEMPOS Y COSTOS DE REVISIÓN',
+      parrafos: [
+        'Tiempos: Son estimados. Las reparaciones de microelectrónica tienen un tiempo mínimo de 30 días hábiles.',
+        'Diagnóstico: El diagnóstico básico para Android es gratuito. Diagnósticos que requieran desensamble avanzado o micro-mediciones en placa para otros dispositivos tendrán un costo de revisión que será informado previamente.'
+      ]
+    },
+    {
+      titulo: '10. VALIDEZ DE LA COTIZACIÓN',
+      parrafos: [
+        'Los presupuestos entregados tienen una validez de 3 días hábiles. Pasado este tiempo, el costo puede variar según la disponibilidad y fluctuación de precio de los repuestos.'
+      ]
+    },
+    {
+      titulo: '11. EQUIPOS NO RECLAMADOS (ABANDONO)',
+      parrafos: [
+        'Equipos no retirados después de 60 días de la notificación de finalización generarán costos de almacenamiento.',
+        'Cláusula de Abandono: Cumplidos 90 días calendario, el equipo se considerará legalmente abandonado. PALMATRÓNICA podrá disponer del mismo para recuperar costos de repuestos, insumos y almacenamiento, sin lugar a indemnizaciones.'
+      ]
+    },
+    {
+      titulo: '12. ACCESORIOS Y PERIFÉRICOS',
+      parrafos: [
+        'El cliente debe retirar tarjetas SIM, memorias SD, fundas y cargadores (a menos que el técnico los solicite). No nos hacemos responsables por la pérdida de accesorios no registrados en la orden de ingreso.'
+      ]
+    },
+    {
+      titulo: '13. CONFORMIDAD Y TRATAMIENTO DE DATOS',
+      parrafos: [
+        'Al retirar el equipo, el cliente firma su conformidad tras verificar el funcionamiento.',
+        'El cliente autoriza el tratamiento de sus datos de contacto exclusivamente para fines de seguimiento del servicio y facturación.'
+      ]
+    }
+  ];
+
+  secciones.forEach((seccion) => {
+    const headingHeight = 3.6;
+    if (!ensureSpace(headingHeight + 1)) {
+      return;
+    }
+
+    doc.setFontSize(7.1);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(0, 0, 0);
+    const headingLines = doc.splitTextToSize(seccion.titulo, columnWidth);
+    headingLines.forEach((line) => {
+      if (!ensureSpace(headingHeight)) {
+        return;
+      }
+      doc.text(line, columnX(), y);
+      y += headingHeight;
+    });
+    y += 0.6;
+
+    seccion.parrafos.forEach((parrafo) => {
+      printWrappedText(parrafo);
+    });
+
+    if (Array.isArray(seccion.subitems) && seccion.subitems.length > 0) {
+      seccion.subitems.forEach((subitem) => {
+        printWrappedText(`- ${subitem}`, { indent: 2.5, spacingAfter: 1 });
+      });
+    }
+
+    y += 0.8;
+  });
+}
+
 // Función para obtener todos los datos del formulario
 function obtenerDatosOrden() {
   const form = document.getElementById('order-form');
@@ -286,36 +489,9 @@ async function generarPDFOrden(orderId) {
 
     y += 10;
 
-    y = checkPageOverflow(doc, y, marginBottom);
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "bold");
-    doc.text("TÉRMINOS Y CONDICIONES", 10, y);
-    y += 6;
-
-    doc.setFontSize(9);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(80, 80, 80);
-    
-    const terminos = [
-      "Si el equipo llega apagado o la pantalla sin imagen, no es posible verificar el estado de componentes como cámara, micrófono, señal u otros. Por tanto, PALMATRÓNICA no se hace responsable por fallas adicionales no detectadas al momento del ingreso.",
-      "El cliente declara haber informado los daños visibles o conocidos del equipo. Cualquier falla adicional que se evidencie durante o después del proceso de reparación no será responsabilidad del centro de reparación.",
-      "En procedimientos de alto riesgo (como cambio de visor, microelectrónica, o reparación de placa base), el cliente acepta que existe la posibilidad de que la reparación no sea exitosa o que el dispositivo presente daños adicionales debido a la condición previa del equipo. Estos casos se realizan únicamente con autorización expresa del cliente.",
-      "Las piezas reemplazadas pueden ser originales, genéricas o reacondicionadas según disponibilidad y presupuesto acordado con el cliente. La garantía aplica únicamente sobre el repuesto nuevo y por defectos de fábrica, no por daños ocasionados por mal uso o golpes posteriores.",
-      "La garantía no cubre daños por caídas, humedad, manipulación de terceros, sobrecarga eléctrica o instalación de software no autorizado."
-    ];
-
-    // Hacer líneas más largas para ocupar menos espacio vertical
-    terminos.forEach(termino => {
-      y = checkPageOverflow(doc, y, marginBottom);
-      const terminoLines = doc.splitTextToSize(termino, pageWidth - 20); // margen lateral más pequeño
-      terminoLines.forEach((line, idx) => {
-        y = checkPageOverflow(doc, y, marginBottom);
-        const bullet = idx === 0 ? '• ' : '  ';
-        doc.text(`${bullet}${line}`, 12, y);
-        y += 4;
-      });
-      y += 2;
-    });
+    // Página 2: términos y condiciones extendidos
+    doc.addPage();
+    renderTerminosCondicionesPage(doc);
 
     const nombreArchivo = `orden_servicio_${datos.cliente.cc}_${Date.now()}.pdf`;
     doc.save(nombreArchivo);
@@ -520,36 +696,9 @@ async function previsualizarPDFOrden(orderId) {
 
     y += 10;
 
-    y = checkPageOverflow(doc, y, marginBottom);
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "bold");
-    doc.text("TÉRMINOS Y CONDICIONES", 10, y);
-    y += 6;
-
-    doc.setFontSize(9);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(80, 80, 80);
-    
-    const terminos2 = [
-      "Si el equipo llega apagado o la pantalla sin imagen, no es posible verificar el estado de componentes como cámara, micrófono, señal u otros. Por tanto, PALMATRÓNICA no se hace responsable por fallas adicionales no detectadas al momento del ingreso.",
-      "El cliente declara haber informado los daños visibles o conocidos del equipo. Cualquier falla adicional que se evidencie durante o después del proceso de reparación no será responsabilidad del centro de reparación.",
-      "En procedimientos de alto riesgo (como cambio de visor, microelectrónica, o reparación de placa base), el cliente acepta que existe la posibilidad de que la reparación no sea exitosa o que el dispositivo presente daños adicionales debido a la condición previa del equipo. Estos casos se realizan únicamente con autorización expresa del cliente.",
-      "Las piezas reemplazadas pueden ser originales, genéricas o reacondicionadas según disponibilidad y presupuesto acordado con el cliente. La garantía aplica únicamente sobre el repuesto nuevo y por defectos de fábrica, no por daños ocasionados por mal uso o golpes posteriores.",
-      "La garantía no cubre daños por caídas, humedad, manipulación de terceros, sobrecarga eléctrica o instalación de software no autorizado."
-    ];
-
-    // Hacer líneas más largas para ocupar menos espacio vertical
-    terminos2.forEach(termino => {
-      y = checkPageOverflow(doc, y, marginBottom);
-      const terminoLines = doc.splitTextToSize(termino, pageWidth - 20);
-      terminoLines.forEach((line, idx) => {
-        y = checkPageOverflow(doc, y, marginBottom);
-        const bullet = idx === 0 ? '• ' : '  ';
-        doc.text(`${bullet}${line}`, 12, y);
-        y += 4;
-      });
-      y += 2;
-    });
+    // Página 2: términos y condiciones extendidos
+    doc.addPage();
+    renderTerminosCondicionesPage(doc);
 
     const pdfBlob = doc.output('blob');
     const pdfUrl = URL.createObjectURL(pdfBlob);
